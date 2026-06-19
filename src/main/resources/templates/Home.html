@@ -1,10 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growth Multiplier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css}">
+
 </head>
+
 <body>
-$END$
+
+<!-- NAV -->
+<nav>
+    <span class="nav-logo">Growth Multiplier</span>
+    <a href="#pricing" class="nav-cta">View Plans</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <p class="hero-eyebrow">Professional Web Presence</p>
+    <h1 class="hero-title">
+        Your Business.<br>
+        <span>Online. Always.</span>
+    </h1>
+    <p class="hero-sub">
+        We build <strong>high-converting websites</strong> for businesses ready to grow. One investment. Lasting
+        results.
+    </p>
+    <a class="hero-arrow" href="#pricing"
+       onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'}); return false;">
+        <span>See plans</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 4v12M4 10l6 6 6-6" />
+        </svg>
+    </a>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-number">200+</div>
+        <div class="stat-label">Sites Launched</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Client Retention</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">4.9★</div>
+        <div class="stat-label">Average Rating</div>
+    </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<section class="section features-section">
+    <div class="section-label">What's Included</div>
+    <h2 class="section-title">Everything your business needs to win online</h2>
+    <p class="section-desc">Every plan includes a fully built, professionally designed website — no templates, no
+        compromise.</p>
+    <div class="features-grid reveal">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="14" rx="2" />
+                    <path d="M8 21h8M12 17v4" />
+                </svg>
+            </div>
+            <div class="feature-title">Custom Design</div>
+            <div class="feature-text">A unique website built specifically around your brand — not a recycled
+                template.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                    <path
+                            d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+            </div>
+            <div class="feature-title">Domain & Hosting</div>
+            <div class="feature-text">We handle setup, domain registration, and secure hosting so you never worry
+                about the technical side.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 18.5A6.5 6.5 0 1 0 5.5 12v.5" />
+                    <path
+                            d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                </svg>
+            </div>
+            <div class="feature-title">Mobile-Optimized</div>
+            <div class="feature-text">Looks perfect on every screen. Most of your customers are on their phones —
+                your site should be ready.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+            </div>
+            <div class="feature-title">SEO Foundation</div>
+            <div class="feature-text">Built-in search optimization so customers can find you on Google when they
+                need you most.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+            </div>
+            <div class="feature-title">Ongoing Support</div>
+            <div class="feature-text">Direct access to our team for updates, questions, or changes throughout your
+                plan term.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+            </div>
+            <div class="feature-title">Fast Load Times</div>
+            <div class="feature-text">Speed-optimized from day one. Faster sites rank higher and convert better —
+                full stop.</div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing-section" id="pricing">
+    <div class="pricing-header reveal">
+        <div>
+            <div class="section-label">Pricing Plans</div>
+            <h2 class="section-title" style="color:var(--white);">Simple, transparent pricing</h2>
+            <p class="section-desc">Choose the term that suits your growth horizon. No hidden fees.</p>
+        </div>
+    </div>
+
+    <div class="plans-grid reveal">
+        <!-- Plan 1 -->
+        <div class="plan-card">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price"><sup>$</sup>2,000</div>
+            <div class="plan-duration">1-year website plan</div>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+                <li>Custom-designed website</li>
+                <li>Domain & secure hosting included</li>
+                <li>Mobile-responsive layout</li>
+                <li>SEO foundation setup</li>
+                <li>Contact form & Google Maps</li>
+                <li>Email support</li>
+            </ul>
+            <a href="#contact" class="plan-btn outline">Get Started</a>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="plan-card">
+            <div class="plan-name">Growth</div>
+            <div class="plan-price"><sup>$</sup>3,000</div>
+            <div class="plan-duration">3-year website plan</div>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+                <li>Everything in Starter</li>
+                <li>Priority content updates</li>
+                <li>Advanced SEO optimization</li>
+                <li>Google Analytics setup</li>
+                <li>Lead capture forms</li>
+                <li>Quarterly performance review</li>
+            </ul>
+            <a href="#contact" class="plan-btn outline">Get Started</a>
+        </div>
+
+        <!-- Plan 3 — Featured -->
+        <div class="plan-card featured">
+            <div class="plan-badge">Most Popular</div>
+            <div class="plan-name">Authority</div>
+            <div class="plan-price"><sup>$</sup>3,500</div>
+            <div class="plan-duration">4-year website plan</div>
+            <div class="plan-divider"></div>
+            <ul class="plan-features">
+                <li>Everything in Growth</li>
+                <li>Dedicated account manager</li>
+                <li>Monthly content refresh</li>
+                <li>Social media integration</li>
+                <li>Custom booking/enquiry system</li>
+                <li>Priority phone support</li>
+            </ul>
+            <a href="#contact" class="plan-btn solid">Get Started</a>
+        </div>
+    </div>
+</section>
+
+<!-- TRUST -->
+<section class="section trust-section" id="contact">
+    <div class="trust-inner">
+        <div class="trust-text reveal">
+            <div class="section-label">Why Growth Multiplier</div>
+            <h2 class="section-title">Built for businesses that mean business</h2>
+            <p class="section-desc">We've helped service businesses across the country establish a professional
+                online presence that works while they work.</p>
+        </div>
+        <div class="trust-points reveal">
+            <div class="trust-point">
+                <div class="trust-num">01</div>
+                <div>
+                    <div class="trust-point-title">You own everything</div>
+                    <div class="trust-point-text">Your domain, your content, your data. No lock-in, ever.</div>
+                </div>
+            </div>
+            <div class="trust-point">
+                <div class="trust-num">02</div>
+                <div>
+                    <div class="trust-point-title">Launched in 2 weeks</div>
+                    <div class="trust-point-text">From deposit to live — most sites are online within 14 business
+                        days.</div>
+                </div>
+            </div>
+            <div class="trust-point">
+                <div class="trust-num">03</div>
+                <div>
+                    <div class="trust-point-title">Results-focused</div>
+                    <div class="trust-point-text">Every decision we make is aimed at one thing: getting you more
+                        customers.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+    <h2 class="cta-strip-title">Ready to be found online?</h2>
+    <p class="cta-strip-sub">Talk to our team today and get your website live in two weeks.</p>
+    <a href="#" class="cta-btn-main" onclick="openModal(); return false;">Book a Free Call</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <span class="footer-logo">Growth Multiplier</span>
+    <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="mailto:hello@growthmultiplier.com">Contact</a>
+    </div>
+    <span class="footer-copy">© 2025 Growth Multiplier. All rights reserved.</span>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div id="modalFormView">
+            <div class="modal-header">
+                <div class="modal-eyebrow">Free Consultation</div>
+                <h3 class="modal-title">Book a Free Call</h3>
+                <p class="modal-sub">Tell us a bit about your business and we'll get back to you within one business
+                    day.</p>
+            </div>
+
+            <form method="post" th:action="@{/submit/bookingForm}" th:object="${requests}" class="modal-form" id="bookingForm">
+                <div class="form-field">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="John Smith" required>
+                </div>
+                <div class="form-field">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="tel" id="contactNumber" name="contactNumber" placeholder="+1 (555) 000-0000"
+                           required>
+                </div>
+                <div class="form-field">
+                    <label for="emailAddress">Email Address</label>
+                    <input type="email" id="emailAddress" name="emailAddress" placeholder="john@business.com"
+                           required>
+                </div>
+                <div class="form-field">
+                    <label for="query">Your Query</label>
+                    <textarea id="query" name="query"
+                              placeholder="Tell us about your business and what you're looking for..."
+                              required></textarea>
+                </div>
+                <button type="submit" class="modal-submit">Submit Request</button>
+                <p class="modal-note">We'll never share your information with anyone else.</p>
+            </form>
+        </div>
+
+        <div class="modal-success" id="modalSuccessView">
+            <div class="modal-success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6L9 17l-5-5" />
+                </svg>
+            </div>
+            <h3 class="modal-success-title">Request Received</h3>
+            <p class="modal-success-text">Thanks for reaching out. A member of our team will contact you within one
+                business day.</p>
+        </div>
+    </div>
+</div>
 </body>
+<script th:script="@{/script.js}"></script>
 </html>
