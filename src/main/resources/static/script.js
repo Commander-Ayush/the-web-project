@@ -39,7 +39,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 bookingForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+
+    console.log("Data was sent from this side");
     modalFormView.style.display = 'none';
     modalSuccessView.classList.add('active');
 });

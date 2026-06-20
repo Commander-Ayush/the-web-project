@@ -16,6 +16,7 @@ public class RequestRepoServiceImpltn implements  RequestRepoServiceInterface {
     @Override
     public ResponseEntity<String> saveRequests(Requests request) {
         requestRepo.save(request);
+        System.out.println("flow reached here and got saved in the repo");
         return ResponseEntity.ok("Request saved successfully");
     }
 }

@@ -16,8 +16,10 @@ public class RequestController {
 
     @PostMapping("/submit/bookingForm")
     public ResponseEntity<String> postRequest(@ModelAttribute Requests request){
+        System.out.println("this url was hit");
         try{
             requestRepoServiceInterface.saveRequests(request);
+            System.out.println("saved request");
             return ResponseEntity.ok("Request sent Successfully");
         }catch(Exception e){
             e.printStackTrace();

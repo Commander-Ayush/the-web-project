@@ -270,7 +270,7 @@
                     day.</p>
             </div>
 
-            <form method="post" th:action="@{/submit/bookingForm}" th:object="${requests}" class="modal-form" id="bookingForm">
+            <form method="POST" th:action="@{/submit/bookingForm}" th:object="${requests}" class="modal-form" id="bookingForm">
                 <div class="form-field">
                     <label for="fullName">Full Name</label>
                     <input type="text" id="fullName" name="fullName" placeholder="John Smith" required>
@@ -309,5 +309,5 @@
     </div>
 </div>
 </body>
-<script th:script="@{/script.js}"></script>
+<script th:src="@{/script.js}"></script>
 </html>

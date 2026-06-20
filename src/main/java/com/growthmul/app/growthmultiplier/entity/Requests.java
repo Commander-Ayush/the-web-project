@@ -11,9 +11,9 @@ public class Requests {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String fullname;
-    private String email;
-    private String phone;
+    private String fullName;
+    private String contactNumber;
+    private String emailAddress;
 
     @Column(length =1000)
     private String query;
