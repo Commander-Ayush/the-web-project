@@ -14,6 +14,7 @@ public class Requests {
     private String fullName;
     private String contactNumber;
     private String emailAddress;
+    private String domain;
 
     @Column(length =1000)
     private String query;
