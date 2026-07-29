@@ -626,6 +626,42 @@ nav {
     background: #222;
 }
 
+/* MAINTENANCE / CHANGE REQUEST SECTION (Existing Clients) */
+.maintenance-section {
+    background: var(--off-white);
+    border-top: 2px solid var(--black);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.maintenance-section .section-title,
+.maintenance-section .section-desc {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.maintenance-box {
+    margin-top: 48px;
+    width: 100%;
+    max-width: 480px;
+    background: var(--white);
+    border-top: 4px solid var(--yellow);
+    box-shadow: 0 1px 0 var(--border);
+    text-align: left;
+}
+
+.maintenance-box .modal-form {
+    padding: 40px 36px;
+}
+
+@media (max-width: 480px) {
+    .maintenance-box .modal-form {
+        padding: 30px 24px;
+    }
+}
+
 /* FOOTER */
 footer {
     background: var(--black);
@@ -796,6 +832,7 @@ footer {
 }
 
 .form-field input,
+.form-field select,
 .form-field textarea {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -808,15 +845,25 @@ footer {
     resize: none;
 }
 
+.form-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23888' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M5 7l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+}
+
 .form-field input::placeholder,
 .form-field textarea::placeholder {
     color: #aaa;
 }
 
 .form-field input:focus,
+.form-field select:focus,
 .form-field textarea:focus {
     border-color: var(--yellow-dark);
-    background: var(--white);
+    background-color: var(--white);
 }
 
 .form-field textarea {

@@ -5,32 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ============================================================
-         SEO BLOCK. Update every "yourdomain.com" placeholder below
-         once this is on its real domain, and update sameAs/telephone/
-         email if those change.
-         ============================================================ -->
     <title>Growth Multiplier | High-Converting Websites for Growing Businesses</title>
     <meta name="description" content="Growth Multiplier builds high-converting, professionally designed websites for small and medium-sized businesses. One investment, lasting results — with ongoing support plans available.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.yourdomain.com/">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Growth Multiplier | High-Converting Websites for Growing Businesses">
     <meta property="og:description" content="Professional websites and ongoing digital support for small and medium-sized businesses. One investment. Lasting results.">
     <meta property="og:url" content="https://www.yourdomain.com/">
     <meta property="og:locale" content="en_US">
 
-    <!-- Twitter/X Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Growth Multiplier | High-Converting Websites for Growing Businesses">
     <meta name="twitter:description" content="Professional websites and ongoing digital support for small and medium-sized businesses.">
 
-    <!-- ProfessionalService structured data -- this is a service business,
-         not a walk-in storefront, so ProfessionalService fits better than
-         LocalBusiness/LocalBusiness subtypes that expect a physical address
-         customers visit. Update telephone/email/sameAs with real values. -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -43,7 +32,6 @@
             "sameAs": []
         }
     </script>
-    <!-- ============================================================ -->
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap"
           rel="stylesheet">
@@ -186,56 +174,60 @@
     <div class="plans-grid reveal">
         <!-- Plan 1 -->
         <div class="plan-card">
-            <div class="plan-name">Starter</div>
-            <div class="plan-price"><sup>$</sup>2,000</div>
-            <div class="plan-duration">1-year website plan</div>
+            <div class="plan-name">Flexible</div>
+            <div class="plan-price"><sup>$</sup>1,000</div>
+            <div class="plan-duration">one-time setup + $120/mo maintenance</div>
             <div class="plan-divider"></div>
             <ul class="plan-features">
                 <li>Custom-designed website</li>
-                <li>Domain & secure hosting included</li>
-                <li>Mobile-responsive layout</li>
-                <li>SEO foundation setup</li>
-                <li>Contact form & Google Maps</li>
-                <li>Email support</li>
+                <li>Domain, SSL & secure hosting</li>
+                <li>Uptime & performance monitoring</li>
+                <li>Broken-link & minor fixes included</li>
+                <li>Mobile-responsive, SEO foundation</li>
+                <li>Cancel anytime, 30 days' notice</li>
             </ul>
-            <a href="#contact" class="plan-btn outline">Get Started</a>
+            <a href="#" class="plan-btn outline" onclick="openModal('flexible'); return false;">Get Started</a>
         </div>
 
         <!-- Plan 2 -->
         <div class="plan-card">
-            <div class="plan-name">Growth</div>
-            <div class="plan-price"><sup>$</sup>3,000</div>
-            <div class="plan-duration">3-year website plan</div>
+            <div class="plan-name">2-Year Bundle</div>
+            <div class="plan-price"><sup>$</sup>2,800</div>
+            <div class="plan-duration">one-time payment, 24 months covered</div>
             <div class="plan-divider"></div>
             <ul class="plan-features">
-                <li>Everything in Starter</li>
+                <li>Everything in Flexible</li>
+                <li>Setup + full maintenance included</li>
+                <li>No further billing for 24 months</li>
+                <li>Save ~$1,080 vs. pay-as-you-go</li>
                 <li>Priority content updates</li>
-                <li>Advanced SEO optimization</li>
-                <li>Google Analytics setup</li>
-                <li>Lead capture forms</li>
-                <li>Quarterly performance review</li>
+                <li>Priority queue for change requests</li>
             </ul>
-            <a href="#contact" class="plan-btn outline">Get Started</a>
+            <a href="#" class="plan-btn outline" onclick="openModal('2year'); return false;">Get Started</a>
         </div>
 
         <!-- Plan 3 — Featured -->
         <div class="plan-card featured">
-            <div class="plan-badge">Most Popular</div>
-            <div class="plan-name">Authority</div>
-            <div class="plan-price"><sup>$</sup>3,500</div>
-            <div class="plan-duration">4-year website plan</div>
+            <div class="plan-badge">Best Value</div>
+            <div class="plan-name">4-Year Bundle</div>
+            <div class="plan-price"><sup>$</sup>4,800</div>
+            <div class="plan-duration">one-time payment, 48 months covered</div>
             <div class="plan-divider"></div>
             <ul class="plan-features">
-                <li>Everything in Growth</li>
-                <li>Dedicated account manager</li>
-                <li>Monthly content refresh</li>
-                <li>Social media integration</li>
-                <li>Custom booking/enquiry system</li>
-                <li>Priority phone support</li>
+                <li>Everything in 2-Year Bundle</li>
+                <li>Setup + full maintenance included</li>
+                <li>No further billing for 48 months</li>
+                <li>Save ~$1,960 vs. pay-as-you-go</li>
+                <li>Dedicated priority support</li>
+                <li>Locked-in price, zero surprises</li>
             </ul>
-            <a href="#contact" class="plan-btn solid">Get Started</a>
+            <a href="#" class="plan-btn solid" onclick="openModal('4year'); return false;">Get Started</a>
         </div>
     </div>
+    <p class="section-desc" style="margin-top:24px; font-size:13px;">
+        Maintenance covers domain, SSL, monitoring, and minor fixes. New features (booking forms, galleries, new pages, integrations) are scoped and billed separately based on complexity — see
+        <a href="#" onclick="openTerms(); return false;" style="color:var(--yellow-dark); text-decoration:underline;">Terms &amp; Conditions</a>.
+    </p>
 </section>
 
 <!-- TRUST -->
@@ -282,12 +274,48 @@
     <a href="#" class="cta-btn-main" onclick="openModal(); return false;">Book a Free Call</a>
 </div>
 
+<!-- MAINTENANCE / CHANGE REQUEST (Existing Clients) -->
+<section class="section maintenance-section" id="maintenance-request">
+    <div class="section-label">Existing Clients</div>
+    <h2 class="section-title">Request a change</h2>
+    <p class="section-desc">Broken link, content update, or a new feature — let us know what you need. Covered
+        maintenance items are fixed at no extra charge; new features are scoped and quoted separately.</p>
+
+    <div class="maintenance-box reveal">
+        <form method="POST" th:action="@{/submit/maintenanceRequest}" th:object="${maintenanceRequest}"
+              class="modal-form" id="maintenanceForm">
+            <div class="form-field">
+                <label for="mName">Full Name</label>
+                <input type="text" id="mName" name="name" placeholder="John Smith" required>
+            </div>
+            <div class="form-field">
+                <label for="mEmail">Email Address</label>
+                <input type="email" id="mEmail" name="email" placeholder="john@business.com" required>
+            </div>
+            <div class="form-field">
+                <label for="mDomain">Your Website Domain</label>
+                <input type="text" id="mDomain" name="domain" placeholder="yourbusiness.com" required>
+            </div>
+            <div class="form-field">
+                <label for="mMessage">What do you need?</label>
+                <textarea id="mMessage" name="message"
+                          placeholder="e.g. Add a booking form to the homepage, or the contact link on the footer is broken..."
+                          required></textarea>
+            </div>
+            <button type="submit" class="modal-submit">Submit Request</button>
+            <p class="modal-note">Covered maintenance items are fixed at no extra charge. New features are scoped
+                and quoted before any work begins.</p>
+        </form>
+    </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
     <span class="footer-logo">Growth Multiplier</span>
     <div class="footer-links">
         <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+        <a href="#" onclick="openTerms(); return false;">Terms</a>
+        <a href="#maintenance-request">Existing Client? Request a Change</a>
         <a href="mailto:hello@growthmultiplier.com">Contact</a>
     </div>
     <span class="footer-copy">© 2025 Growth Multiplier. All rights reserved.</span>
@@ -326,6 +354,20 @@
                            required>
                 </div>
                 <div class="form-field">
+                    <label for="domain">Business Domain / Website (if any)</label>
+                    <input type="text" id="domain" name="domain" placeholder="yourbusiness.com or 'none yet'">
+                </div>
+                <div class="form-field">
+                    <label for="plan">Preferred Plan</label>
+                    <select id="plan" name="plan" required>
+                        <option value="" disabled selected>Select a plan</option>
+                        <option value="Flexible - $1,199 setup + $119/mo">Flexible — $1,199 setup + $119/mo</option>
+                        <option value="2-Year Bundle - $2,799 one-time">2-Year Bundle — $2,799 one-time</option>
+                        <option value="4-Year Bundle - $4,799 one-time">4-Year Bundle — $4,799 one-time</option>
+                        <option value="Not sure yet">Not sure yet — help me decide</option>
+                    </select>
+                </div>
+                <div class="form-field">
                     <label for="query">Your Query</label>
                     <textarea id="query" name="query"
                               placeholder="Tell us about your business and what you're looking for..."
@@ -348,6 +390,59 @@
         </div>
     </div>
 </div>
+
+<!-- TERMS & CONDITIONS MODAL -->
+<div class="modal-overlay" id="termsModal">
+    <div class="modal-box" style="max-width:640px; max-height:80vh; overflow-y:auto;">
+        <button class="modal-close" onclick="closeTerms()" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="modal-header">
+            <div class="modal-eyebrow">Please Read</div>
+            <h3 class="modal-title">Terms &amp; Conditions</h3>
+        </div>
+        <div style="font-size:14px; line-height:1.7; color:var(--black);">
+            <p><strong>1. Scope of Maintenance</strong><br>
+                The monthly maintenance fee (or the maintenance period included in a Bundle plan) covers: domain name
+                registration and renewal, SSL certificate issuance and renewal, uptime and performance monitoring,
+                routine security patches and dependency updates, and fixing broken links, minor content edits, and
+                small layout bug fixes. Hosting and infrastructure costs are included.</p>
+            <p><strong>2. Out-of-Scope — New Features</strong><br>
+                Maintenance does not include new functionality. Examples include, but are not limited to: booking or
+                appointment forms, image carousels or galleries, new pages or sections, third-party integrations
+                (payments, CRM, analytics beyond basic setup), custom design overhauls, or e-commerce functionality.
+                Such requests are scoped and quoted separately based on complexity, and require written (email)
+                approval before work begins.</p>
+            <p><strong>3. Plan Terms</strong><br>
+                <em>Flexible:</em> Setup fee due upfront; maintenance billed monthly thereafter. Cancel anytime with
+                30 days' written notice; setup fee is non-refundable.<br>
+                <em>2-Year Bundle:</em> One-time payment of $2,800 due upfront, covering setup and maintenance for 24
+                months from activation. No further payments due during this period unless new features are
+                requested (see Section 2). Non-refundable after 14 days from activation. At the end of 24 months,
+                service continues month-to-month at the standard maintenance rate unless a new bundle is purchased.<br>
+                <em>4-Year Bundle:</em> One-time payment of $4,800 due upfront, covering setup and maintenance for 48
+                months from activation. Same renewal and refund terms as the 2-Year Bundle, adjusted for the 48-month
+                period.</p>
+            <p><strong>4. Payment</strong><br>
+                Setup fees (or bundle payments) are due upfront before work begins. Monthly maintenance, where
+                applicable, is billed in advance. Failure to pay within 15 days may result in suspension of hosting
+                and domain services.</p>
+            <p><strong>5. Domain Ownership</strong><br>
+                The domain is registered and managed on the client's behalf during the active plan. Upon contract end
+                or cancellation, domain transfer to the client's own registrar is available upon request within 30
+                days; after that, Growth Multiplier is not obligated to retain the domain.</p>
+            <p><strong>6. Client Responsibilities</strong><br>
+                The client must provide content, branding assets, and timely feedback or approvals. Delays in client
+                response may extend delivery timelines without penalty to Growth Multiplier.</p>
+            <p><strong>7. Termination</strong><br>
+                Either party may terminate with written notice per the plan terms above. Growth Multiplier reserves
+                the right to suspend service for non-payment or abusive use.</p>
+        </div>
+    </div>
+</div>
+
 </body>
 <script th:src="@{/script.js}"></script>
 </html>

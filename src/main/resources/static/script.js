@@ -15,7 +15,17 @@ const modalFormView = document.getElementById('modalFormView');
 const modalSuccessView = document.getElementById('modalSuccessView');
 const bookingForm = document.getElementById('bookingForm');
 
-function openModal() {
+const planSelect = document.getElementById('plan');
+const planValues = {
+    flexible: "Flexible - $1,000 setup + $120/mo",
+    "2year": "2-Year Bundle - $2,800 one-time",
+    "4year": "4-Year Bundle - $4,800 one-time"
+};
+
+function openModal(planKey) {
+    if (planKey && planValues[planKey] && planSelect) {
+        planSelect.value = planValues[planKey];
+    }
     modalOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -36,6 +46,24 @@ modalOverlay.addEventListener('click', (e) => {
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+    if (e.key === 'Escape' && termsOverlay.classList.contains('active')) closeTerms();
+});
+
+// TERMS MODAL LOGIC
+const termsOverlay = document.getElementById('termsModal');
+
+function openTerms() {
+    termsOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeTerms() {
+    termsOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+termsOverlay.addEventListener('click', (e) => {
+    if (e.target === termsOverlay) closeTerms();
 });
 
 bookingForm.addEventListener('submit', function (e) {
