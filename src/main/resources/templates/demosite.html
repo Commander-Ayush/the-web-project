@@ -24,7 +24,7 @@
 
 <section class="hero">
     <div class="hero-content">
-        <h1>Security You Can See. Peace You Can Feel.</h1>
+        <h1 id="hero-tagline">Security You Can See. Peace You Can Feel.</h1>
         <p>Custom CCTV, access control, and monitoring solutions — installed and maintained by professionals.</p>
         <a href="#contact" class="btn">Get a Free Consultation</a>
     </div>
@@ -258,6 +258,17 @@
 </footer>
 
 </body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.CLIENT_DATA = {
+        businessName: /*[[${client.businessName}]]*/ "SecureVista",
+        tagline: /*[[${client.tagline}]]*/ "Security You Can See. Peace You Can Feel.",
+        phone: /*[[${client.phone}]]*/ "(555) 123-4567",
+        email: /*[[${client.email}]]*/ "hello@securevista.com",
+        address: /*[[${client.address}]]*/ "123 Main Street, Phoenix, AZ"
+    };
+    /*]]>*/
+</script>
 <script th:src="@{/demoscript.js}"></script>
 
 </html>

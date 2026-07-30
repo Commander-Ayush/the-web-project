@@ -1,4 +1,7 @@
-const CLIENT = {
+// window.CLIENT_DATA is injected server-side (see demosite.html) based on
+// the :id in /demo-security-site/{id}. Falls back to a generic placeholder
+// if the page is opened without going through the controller.
+const CLIENT = window.CLIENT_DATA || {
     businessName: "SecureVista",
     tagline: "Security You Can See. Peace You Can Feel.",
     phone: "(555) 123-4567",
@@ -20,6 +23,7 @@ function renderLogo(name) {
 
 document.getElementById("site-logo").innerHTML = renderLogo(CLIENT.businessName);
 document.title = `${CLIENT.businessName} | Security Solutions`;
+document.getElementById("hero-tagline").textContent = CLIENT.tagline;
 document.getElementById("contact-phone").textContent = CLIENT.phone;
 document.getElementById("contact-email").textContent = CLIENT.email;
 document.getElementById("contact-address").textContent = CLIENT.address;
