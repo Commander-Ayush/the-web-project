@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Growth Multiplier</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <style>
+        .not-found {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+        }
+        .not-found h1 {
+            font-size: clamp(4rem, 12vw, 7rem);
+            margin: 0;
+            line-height: 1;
+        }
+        .not-found p {
+            font-size: 1.1rem;
+            margin: 16px 0 32px;
+            opacity: 0.8;
+        }
+        .not-found a.btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="not-found">
+    <h1>404</h1>
+    <p>The page you're looking for doesn't exist or may have moved.</p>
+    <a href="/" class="btn">Back to Home</a>
+</div>
+</body>
+
+</html>
