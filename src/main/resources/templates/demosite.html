@@ -4,271 +4,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecureVista | Security Solutions</title>
+    <title th:text="${client.businessName} + ' | Security Solutions'">SecureVista</title>
     <link rel="stylesheet" th:href="@{/demostyle.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
 
-<header class="navbar">
-    <div class="logo" id="site-logo">Secure<span>Vista</span></div>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
-    </button>
-    <nav id="nav-menu">
-        <a href="#services">Services</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
+    <!-- Background Canvas -->
+    <canvas id="plexus-canvas"></canvas>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1 id="hero-tagline">Security You Can See. Peace You Can Feel.</h1>
-        <p>Custom CCTV, access control, and monitoring solutions — installed and maintained by professionals.</p>
-        <a href="#contact" class="btn">Get a Free Consultation</a>
-    </div>
-</section>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo" id="site-logo">Secure<span>Vista</span></div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="nav-menu">
+            <a href="#services">Services</a>
+            <a href="#booking">Book Now</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
 
-<section id="services" class="services">
-    <h2>Our Services</h2>
-    <p class="section-sub">Everything you need, nothing you don't.</p>
-    <div class="services-grid">
-
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="6" width="14" height="10" rx="2"></rect>
-                    <path d="M16 10l6-3v10l-6-3"></path>
-                </svg>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content reveal">
+                <h1 th:text="${client.tagline}">Next-Gen Security & Low-Voltage Infrastructure</h1>
+                <p>Protecting what matters most with smart CCTV, access control, and 24/7 proactive monitoring.</p>
+                <a href="#booking" class="btn">Get a Free Consultation</a>
             </div>
-            <h3>CCTV Installation</h3>
-            <p>High-definition security cameras installed and configured for full property coverage.</p>
-        </div>
+        </section>
 
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="11" width="14" height="10" rx="2"></rect>
-                    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
-                </svg>
-            </div>
-            <h3>Access Control Systems</h3>
-            <p>Keycard, fob, and app-based entry systems for offices and residential buildings.</p>
-        </div>
-
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"></path>
-                    <path d="M9 12l2 2 4-4"></path>
-                </svg>
-            </div>
-            <h3>Alarm Monitoring</h3>
-            <p>24/7 monitored alarm systems with instant alerts to your phone and our response team.</p>
-        </div>
-
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 12h4l3 8 4-16 3 8h4"></path>
-                </svg>
-            </div>
-            <h3>Structured Cabling</h3>
-            <p>Clean, professional low-voltage wiring for cameras, sensors, and network equipment.</p>
-        </div>
-
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 7v5l3 3"></path>
-                </svg>
-            </div>
-            <h3>24/7 Remote Monitoring</h3>
-            <p>Round-the-clock live monitoring so nothing slips through, day or night.</p>
-        </div>
-
-        <div class="service-card reveal">
-            <div class="service-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-            </div>
-            <h3>Maintenance & Support</h3>
-            <p>Ongoing service plans to keep every camera, sensor, and panel running smoothly.</p>
-        </div>
-
-    </div>
-</section>
-
-<section id="gallery" class="gallery">
-    <h2>Recent Work</h2>
-    <p class="section-sub">A few projects we've completed recently.</p>
-    <div class="gallery-grid">
-        <div class="gallery-item reveal">
-            <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600"
-                 alt="CCTV install for a retail storefront">
-            <div class="gallery-caption">CCTV install for a retail storefront</div>
-        </div>
-        <div class="gallery-item reveal">
-            <img src="https://images.unsplash.com/photo-1558002038-1055907df827?w=600"
-                 alt="Access control panel for office building">
-            <div class="gallery-caption">Access control panel for office building</div>
-        </div>
-        <div class="gallery-item reveal">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
-                 alt="Alarm monitoring control room">
-            <div class="gallery-caption">Alarm monitoring control room</div>
-        </div>
-        <div class="gallery-item reveal">
-            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600"
-                 alt="Structured cabling for a new build">
-            <div class="gallery-caption">Structured cabling for a new build</div>
-        </div>
-    </div>
-</section>
-
-<section id="reviews" class="reviews">
-    <h2>What Clients Say</h2>
-    <p class="section-sub">Real feedback from businesses we've protected.</p>
-    <div class="reviews-grid">
-
-        <div class="review-card reveal">
-            <div class="review-stars">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-            </div>
-            <p class="review-quote">"They installed our cameras in a single afternoon and actually explained how the system
-                worked instead of rushing off. Support has been just as responsive since."</p>
-            <div class="review-author">
-                <div class="review-avatar">RM</div>
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="section-header">
                 <div>
-                    <div class="review-author-name">Rina Mehta</div>
-                    <div class="review-author-role">Owner, Mehta Boutique</div>
+                    <h2>Our Services</h2>
+                    <p class="section-sub">Everything you need, nothing you don't.</p>
+                </div>
+                <button id="toggle-services-btn" class="btn-toggle">Show All</button>
+            </div>
+
+            <!-- Carousel View with Skeleton Placeholders -->
+            <div class="carousel-stage" id="services-stage">
+                <div class="service-card skeleton">
+                    <div class="skeleton-icon"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+                <div class="service-card skeleton">
+                    <div class="skeleton-icon"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+                <div class="service-card skeleton">
+                    <div class="skeleton-icon"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+                <div class="service-card skeleton">
+                    <div class="skeleton-icon"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+                <div class="service-card skeleton">
+                    <div class="skeleton-icon"></div>
+                    <div class="skeleton-title"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
                 </div>
             </div>
-        </div>
 
-        <div class="review-card reveal">
-            <div class="review-stars">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-            </div>
-            <p class="review-quote">"Our access control panel went down late on a Friday and someone was on-site within the
-                hour. That kind of reliability is rare in this industry."</p>
-            <div class="review-author">
-                <div class="review-avatar">DK</div>
+            <!-- Grid View (Hidden by default) -->
+            <div class="services-grid-container hidden" id="services-grid"></div>
+        </section>
+
+        <!-- Booking Section -->
+        <section class="booking-section" id="booking">
+            <div class="section-header" style="justify-content: center; text-align: center; margin-bottom: 1.5rem;">
                 <div>
-                    <div class="review-author-name">David Kim</div>
-                    <div class="review-author-role">Facilities Manager, Kim Logistics</div>
+                    <h2>Schedule a Free Site Survey</h2>
+                    <p class="section-sub">Speak with our engineers to design your custom security system.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="review-card reveal">
-            <div class="review-stars">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3-5.5-3-5.5 3 1-6.3L3 8.9 9 8z"></path>
-                </svg>
+            <div class="glare-card-wrapper" id="glareCard">
+                <form class="booking-form" id="booking-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="firstName">FIRST NAME</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="John"
+                                required>
+                        </div>
+                        <div class="form-field">
+                            <label for="lastName">LAST NAME</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Doe"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="clientPhone">PHONE NUMBER</label>
+                            <input type="tel" id="clientPhone" name="phone" class="form-control"
+                                placeholder="(555) 000-0000" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="clientEmail">EMAIL ADDRESS</label>
+                            <input type="email" id="clientEmail" name="email" class="form-control"
+                                placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="clientAddress">SITE ADDRESS</label>
+                            <input type="text" id="clientAddress" name="address" class="form-control"
+                                placeholder="123 Main St, Austin, TX">
+                        </div>
+                        <div class="form-field">
+                            <label for="serviceOfferingId">REQUIRED SERVICE</label>
+                            <select id="serviceOfferingId" name="serviceOfferingId" class="form-control" required>
+                                <option value="" disabled selected>Select a Service</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="preferredDate">PREFERRED DATE</label>
+                            <input type="date" id="preferredDate" name="preferredDate" class="form-control">
+                        </div>
+                        <div class="form-field">
+                            <label for="clientNotes">NOTES (OPTIONAL)</label>
+                            <input type="text" id="clientNotes" name="notes" class="form-control"
+                                placeholder="Anything we should know?">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Request Consultation</button>
+                    <p class="booking-status" id="booking-status" style="margin-top: 10px; font-weight: 600;"></p>
+                </form>
             </div>
-            <p class="review-quote">"Clean cable runs, no mess left behind, and the monitoring app is genuinely easy to use.
-                Would recommend to any small business owner."</p>
-            <div class="review-author">
-                <div class="review-avatar">AT</div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="section-header" style="margin-bottom: 1rem;">
                 <div>
-                    <div class="review-author-name">Amara Torres</div>
-                    <div class="review-author-role">Manager, Torres Family Diner</div>
+                    <h2>Our Recent Work</h2>
+                    <p class="section-sub">Precision installations across commercial and residential sites.</p>
                 </div>
             </div>
-        </div>
+            <div class="gallery-container">
+                <div class="gallery-card"><img
+                        src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80"
+                        alt="CCTV Camera"></div>
+                <div class="gallery-card"><img
+                        src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&q=80"
+                        alt="Access Control"></div>
+                <div class="gallery-card center-card"><img
+                        src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80"
+                        alt="Network Wiring"></div>
+                <div class="gallery-card"><img
+                        src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80"
+                        alt="Control Room"></div>
+                <div class="gallery-card"><img
+                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
+                        alt="Server Rack"></div>
+            </div>
+        </section>
 
-    </div>
-</section>
+        <!-- Reviews Section -->
+        <section class="reviews-section" id="reviews">
+            <div class="section-header">
+                <div>
+                    <h2>What Our Clients Say</h2>
+                    <p class="section-sub">Real feedback from homes and businesses we protect.</p>
+                </div>
+                <button id="toggle-reviews-btn" class="btn-toggle">Show All</button>
+            </div>
 
-<section id="contact" class="contact reveal">
-    <h2>Let's Talk</h2>
-    <p>Call us or visit our office — we'd rather explain it in person than over a rushed phone call.</p>
-    <div class="contact-details">
-        <p>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path
-                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z">
-                </path>
-            </svg>
-            <strong>Phone:</strong>&nbsp;<span id="contact-phone"></span>
-        </p>
-        <p>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16v16H4z"></path>
-                <path d="M22 6l-10 7L2 6"></path>
-            </svg>
-            <strong>Email:</strong>&nbsp;<span id="contact-email"></span>
-        </p>
-        <p>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <strong>Office:</strong>&nbsp;<span id="contact-address"></span>
-        </p>
-    </div>
-</section>
+            <div class="reviews-layout" id="reviews-summary-layout">
+                <div class="reviews-list">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="reviewer-name">Alex M.</span>
+                            <span class="review-stars">★★★★★</span>
+                        </div>
+                        <p class="review-text">Outstanding setup. Installed 8 CCTV cameras around our warehouse with
+                            zero downtime.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="reviewer-name">Sarah K.</span>
+                            <span class="review-stars">★★★★★</span>
+                        </div>
+                        <p class="review-text">The access control app is super smooth. Our office team loves not
+                            carrying physical keys.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <h3 style="margin-bottom: 0.75rem;">Leave a Review</h3>
+                    <input type="text" id="review-name-input" class="form-control" placeholder="Your name"
+                        style="margin-bottom: 0.75rem;">
+                    <div class="interactive-stars" id="starPicker" style="margin-bottom: 0.75rem;">
+                        <span onclick="setRating(1)">★</span>
+                        <span onclick="setRating(2)">★</span>
+                        <span onclick="setRating(3)">★</span>
+                        <span onclick="setRating(4)">★</span>
+                        <span onclick="setRating(5)">★</span>
+                    </div>
+                    <textarea id="review-text-input" class="form-control" placeholder="Your feedback..." rows="3"
+                        style="margin-bottom: 0.75rem;"></textarea>
+                    <p id="review-status" class="booking-status" style="display:none; margin-bottom: 0.5rem;"></p>
+                    <button id="review-submit-btn" class="btn-submit">Submit Review</button>
+                </div>
+            </div>
 
-<footer>
-    <p>&copy; <span id="footer-year"></span> <span id="footer-name"></span>. All rights reserved.</p>
-</footer>
+            <!-- Grid View for Reviews (Hidden by default) -->
+            <div class="reviews-grid-container hidden" id="reviews-grid"></div>
+        </section>
 
+        <!-- About / Contact Section -->
+        <section class="about-section" id="about">
+            <h2>About SecureVista</h2>
+            <p class="section-sub">Providing top-tier low-voltage integration and peace of mind since 2018.</p>
+            <div class="contact-details">
+                <p>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <strong>Phone:</strong> <span id="contact-phone">+1 (800) 555-0199</span>
+                </p>
+                <p>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    <strong>Email:</strong> <span id="contact-email">support@securevista.com</span>
+                </p>
+                <p>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <strong>Address:</strong> <span id="contact-address">100 Technology Dr, Suite 400</span>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">SecureVista</span>. All rights reserved.</p>
+    </footer>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.CLIENT_DATA = {
+            businessName: /*[[${client.businessName}]]*/ "SecureVista",
+            tagline: /*[[${client.tagline}]]*/ "Next-Gen Security & Low-Voltage Infrastructure",
+            phone: /*[[${client.phone}]]*/ "+1 (800) 555-0199",
+            email: /*[[${client.email}]]*/ "support@securevista.com",
+            address: /*[[${client.address}]]*/ "100 Technology Dr, Suite 400"
+        };
+        // Same-origin demo — demoapi.js's fetch calls (GET /services, POST /booking)
+        // hit this same GrowthMultiplier server, so no separate backend URL is
+        // needed here (unlike the standalone per-client deploy).
+        window.API_BASE = "";
+        /*]]>*/
+    </script>
+    <script th:src="@{/icons.js}"></script>
+    <script th:src="@{/demoapi.js}"></script>
+    <script th:src="@{/demoscript.js}"></script>
 </body>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    window.CLIENT_DATA = {
-        businessName: /*[[${client.businessName}]]*/ "SecureVista",
-        tagline: /*[[${client.tagline}]]*/ "Security You Can See. Peace You Can Feel.",
-        phone: /*[[${client.phone}]]*/ "(555) 123-4567",
-        email: /*[[${client.email}]]*/ "hello@securevista.com",
-        address: /*[[${client.address}]]*/ "123 Main Street, Phoenix, AZ"
-    };
-    /*]]>*/
-</script>
-<script th:src="@{/demoscript.js}"></script>
 
 </html>
