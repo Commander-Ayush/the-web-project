@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${client.businessName} + ' | Security Solutions'">SecureVista</title>
@@ -9,284 +10,614 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+            rel="stylesheet">
+    <style>
+        /* Form Layout Wrappers */
+        .form-row .form-field.full-width {
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+
+        /* Interactive Trigger Field */
+        .datepicker-trigger {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .datepicker-trigger:hover, .datepicker-trigger.active {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .datepicker-trigger .placeholder { color: #94a3b8; }
+
+        /* INLINE CALENDAR DRAWER (Expands inside form flow to prevent overlap/clipping) */
+        .calendar-drawer {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.35s ease-in-out, opacity 0.25s ease, margin-top 0.25s ease;
+            background: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            margin-top: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .calendar-drawer.open {
+            max-height: 520px;
+            opacity: 1;
+            margin-top: 8px;
+            padding: 14px;
+            border-color: #e2e8f0;
+        }
+
+        .cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .cal-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .cal-btn {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            cursor: pointer;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-weight: 600;
+            transition: all 0.15s ease;
+        }
+
+        .cal-btn:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+
+        .cal-weekdays, .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .cal-weekdays span {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 700;
+            padding-bottom: 4px;
+        }
+
+        /* Grid Day Cells */
+        .cal-day {
+            min-height: 42px;
+            padding: 4px 2px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid #f1f5f9;
+            cursor: pointer;
+            background: #ffffff;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .cal-day .day-num {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1;
+        }
+
+        .cal-day .day-status {
+            font-size: 7.5px;
+            font-weight: 700;
+            margin-top: 3px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        /* Availability Colors */
+        .cal-day.avail .day-status { color: #16a34a; }        /* Green */
+        .cal-day.busy .day-status { color: #d97706; }         /* Yellow */
+        .cal-day.full {
+            background: #fef2f2;
+            border-color: #fecaca;
+            cursor: not-allowed;
+        }
+        .cal-day.full .day-status { color: #dc2626; }         /* Red */
+        .cal-day.full .day-num { color: #991b1b; text-decoration: line-through; }
+
+        .cal-day.disabled { opacity: 0; cursor: default; border-color: transparent; }
+
+        .cal-day:not(.disabled):not(.full):hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .cal-day.selected {
+            background: #2563eb !important;
+            border-color: #2563eb !important;
+        }
+        .cal-day.selected .day-num, .cal-day.selected .day-status { color: #ffffff !important; }
+
+        /* Time Slots & Footer Bar */
+        .slot-container {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .slot-title { font-size: 11px; font-weight: 600; color: #64748b; display: block; margin-bottom: 6px; }
+
+        .slot-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .slot-pill {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .slot-pill:hover { border-color: #2563eb; color: #2563eb; }
+        .slot-pill.selected { background: #1e293b; border-color: #1e293b; color: #ffffff; }
+
+        .drawer-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-done {
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-done:hover { background: #2563eb; }
+    </style>
 </head>
 
 <body>
 
-    <!-- Background Canvas -->
-    <canvas id="plexus-canvas"></canvas>
+<canvas id="plexus-canvas"></canvas>
 
-    <!-- Navigation -->
-    <header class="navbar">
-        <div class="logo" id="site-logo">Secure<span>Vista</span></div>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav id="nav-menu">
-            <a href="#services">Services</a>
-            <a href="#booking">Book Now</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#reviews">Reviews</a>
-            <a href="#about">About</a>
-        </nav>
-    </header>
+<header class="navbar">
+    <div class="logo" id="site-logo">Secure<span>Vista</span></div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <nav id="nav-menu">
+        <a href="#services">Services</a>
+        <a href="#booking">Book Now</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#about">About</a>
+    </nav>
+</header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content reveal">
-                <h1 th:text="${client.tagline}">Next-Gen Security & Low-Voltage Infrastructure</h1>
-                <p>Protecting what matters most with smart CCTV, access control, and 24/7 proactive monitoring.</p>
-                <a href="#booking" class="btn">Get a Free Consultation</a>
+<main>
+    <section class="hero">
+        <div class="hero-content reveal">
+            <h1 th:text="${client.tagline}">Next-Gen Security & Low-Voltage Infrastructure</h1>
+            <p>Protecting what matters most with smart CCTV, access control, and 24/7 proactive monitoring.</p>
+            <a href="#booking" class="btn">Get a Free Consultation</a>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="section-header">
+            <div>
+                <h2>Our Services</h2>
+                <p class="section-sub">Everything you need, nothing you don't.</p>
             </div>
-        </section>
+            <button id="toggle-services-btn" class="btn-toggle">Show All</button>
+        </div>
 
-        <!-- Services Section -->
-        <section class="services" id="services">
-            <div class="section-header">
-                <div>
-                    <h2>Our Services</h2>
-                    <p class="section-sub">Everything you need, nothing you don't.</p>
-                </div>
-                <button id="toggle-services-btn" class="btn-toggle">Show All</button>
+        <div class="carousel-stage" id="services-stage">
+            <div class="service-card skeleton">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
             </div>
-
-            <!-- Carousel View with Skeleton Placeholders -->
-            <div class="carousel-stage" id="services-stage">
-                <div class="service-card skeleton">
-                    <div class="skeleton-icon"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                </div>
-                <div class="service-card skeleton">
-                    <div class="skeleton-icon"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                </div>
-                <div class="service-card skeleton">
-                    <div class="skeleton-icon"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                </div>
-                <div class="service-card skeleton">
-                    <div class="skeleton-icon"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                </div>
-                <div class="service-card skeleton">
-                    <div class="skeleton-icon"></div>
-                    <div class="skeleton-title"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line short"></div>
-                </div>
+            <div class="service-card skeleton">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
             </div>
-
-            <!-- Grid View (Hidden by default) -->
-            <div class="services-grid-container hidden" id="services-grid"></div>
-        </section>
-
-        <!-- Booking Section -->
-        <section class="booking-section" id="booking">
-            <div class="section-header" style="justify-content: center; text-align: center; margin-bottom: 1.5rem;">
-                <div>
-                    <h2>Schedule a Free Site Survey</h2>
-                    <p class="section-sub">Speak with our engineers to design your custom security system.</p>
-                </div>
+            <div class="service-card skeleton">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
             </div>
-            <div class="glare-card-wrapper" id="glareCard">
-                <form class="booking-form" id="booking-form">
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label for="firstName">FIRST NAME</label>
-                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="John"
-                                required>
+            <div class="service-card skeleton">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+            </div>
+            <div class="service-card skeleton">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-title"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+            </div>
+        </div>
+
+        <div class="services-grid-container hidden" id="services-grid"></div>
+    </section>
+
+    <section class="booking-section" id="booking">
+        <div class="section-header" style="justify-content: center; text-align: center; margin-bottom: 1.5rem;">
+            <div>
+                <h2>Schedule a Free Site Survey</h2>
+                <p class="section-sub">Speak with our engineers to design your custom security system.</p>
+            </div>
+        </div>
+        <div class="glare-card-wrapper" id="glareCard">
+            <form class="booking-form" id="booking-form">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="firstName">FIRST NAME</label>
+                        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="John"
+                               required>
+                    </div>
+                    <div class="form-field">
+                        <label for="lastName">LAST NAME</label>
+                        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Doe"
+                               required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="clientPhone">PHONE NUMBER</label>
+                        <input type="tel" id="clientPhone" name="phone" class="form-control"
+                               placeholder="(555) 000-0000" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="clientEmail">EMAIL ADDRESS</label>
+                        <input type="email" id="clientEmail" name="email" class="form-control"
+                               placeholder="john@example.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="clientAddress">SITE ADDRESS</label>
+                        <input type="text" id="clientAddress" name="address" class="form-control"
+                               placeholder="123 Main St, Austin, TX">
+                    </div>
+                    <div class="form-field">
+                        <label for="serviceOfferingId">REQUIRED SERVICE</label>
+                        <select id="serviceOfferingId" name="serviceOfferingId" class="form-control" required>
+                            <option value="" disabled selected>Select a Service</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field full-width">
+                        <label>PREFERRED SURVEY DATE & TIME</label>
+
+                        <input type="hidden" id="preferredDate" name="preferredDate" required>
+                        <input type="hidden" id="preferredTime" name="preferredTime" required>
+
+                        <div class="datepicker-trigger" id="datepickerTrigger">
+                            <span id="triggerText" class="placeholder">Select Date & Time</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                         </div>
-                        <div class="form-field">
-                            <label for="lastName">LAST NAME</label>
-                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Doe"
-                                required>
+
+                        <div class="calendar-drawer" id="calendarDrawer">
+                            <div class="cal-header">
+                                <span class="cal-title" id="calMonthYear">September 2026</span>
+                                <div class="cal-nav">
+                                    <button type="button" class="cal-btn" id="calPrev">&larr;</button>
+                                    <button type="button" class="cal-btn" id="calNext">&rarr;</button>
+                                </div>
+                            </div>
+                            <div class="cal-weekdays">
+                                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                            </div>
+                            <div class="cal-grid" id="calGrid"></div>
+
+                            <div class="slot-container" id="slotContainer" style="display: none;">
+                                <span class="slot-title">Select Time Slot:</span>
+                                <div class="slot-pills" id="slotPills"></div>
+                            </div>
+
+                            <div class="drawer-footer">
+                                <button type="button" class="btn-done" id="calDoneBtn">Done</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label for="clientPhone">PHONE NUMBER</label>
-                            <input type="tel" id="clientPhone" name="phone" class="form-control"
-                                placeholder="(555) 000-0000" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="clientEmail">EMAIL ADDRESS</label>
-                            <input type="email" id="clientEmail" name="email" class="form-control"
-                                placeholder="john@example.com" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label for="clientAddress">SITE ADDRESS</label>
-                            <input type="text" id="clientAddress" name="address" class="form-control"
-                                placeholder="123 Main St, Austin, TX">
-                        </div>
-                        <div class="form-field">
-                            <label for="serviceOfferingId">REQUIRED SERVICE</label>
-                            <select id="serviceOfferingId" name="serviceOfferingId" class="form-control" required>
-                                <option value="" disabled selected>Select a Service</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-field">
-                            <label for="preferredDate">PREFERRED DATE</label>
-                            <input type="date" id="preferredDate" name="preferredDate" class="form-control">
-                        </div>
-                        <div class="form-field">
-                            <label for="clientNotes">NOTES (OPTIONAL)</label>
-                            <input type="text" id="clientNotes" name="notes" class="form-control"
-                                placeholder="Anything we should know?">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-submit">Request Consultation</button>
-                    <p class="booking-status" id="booking-status" style="margin-top: 10px; font-weight: 600;"></p>
-                </form>
-            </div>
-        </section>
-
-        <!-- Gallery Section -->
-        <section class="gallery-section" id="gallery">
-            <div class="section-header" style="margin-bottom: 1rem;">
-                <div>
-                    <h2>Our Recent Work</h2>
-                    <p class="section-sub">Precision installations across commercial and residential sites.</p>
                 </div>
-            </div>
-            <div class="gallery-container">
-                <div class="gallery-card"><img
-                        src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80"
-                        alt="CCTV Camera"></div>
-                <div class="gallery-card"><img
-                        src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&q=80"
-                        alt="Access Control"></div>
-                <div class="gallery-card center-card"><img
-                        src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80"
-                        alt="Network Wiring"></div>
-                <div class="gallery-card"><img
-                        src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80"
-                        alt="Control Room"></div>
-                <div class="gallery-card"><img
-                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
-                        alt="Server Rack"></div>
-            </div>
-        </section>
 
-        <!-- Reviews Section -->
-        <section class="reviews-section" id="reviews">
-            <div class="section-header">
-                <div>
-                    <h2>What Our Clients Say</h2>
-                    <p class="section-sub">Real feedback from homes and businesses we protect.</p>
+                <div class="form-row">
+                    <div class="form-field full-width">
+                        <label for="clientNotes">NOTES (OPTIONAL)</label>
+                        <input type="text" id="clientNotes" name="notes" class="form-control"
+                               placeholder="Anything we should know?">
+                    </div>
                 </div>
-                <button id="toggle-reviews-btn" class="btn-toggle">Show All</button>
-            </div>
+                <button type="submit" class="btn-submit">Request Consultation</button>
+                <p class="booking-status" id="booking-status" style="margin-top: 10px; font-weight: 600;"></p>
+            </form>
+        </div>
+    </section>
 
-            <div class="reviews-layout" id="reviews-summary-layout">
-                <div class="reviews-list">
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="reviewer-name">Alex M.</span>
-                            <span class="review-stars">★★★★★</span>
-                        </div>
-                        <p class="review-text">Outstanding setup. Installed 8 CCTV cameras around our warehouse with
-                            zero downtime.</p>
+    <section class="gallery-section" id="gallery">
+        <div class="section-header" style="margin-bottom: 1rem;">
+            <div>
+                <h2>Our Recent Work</h2>
+                <p class="section-sub">Precision installations across commercial and residential sites.</p>
+            </div>
+        </div>
+        <div class="gallery-container">
+            <div class="gallery-card"><img
+                    src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80"
+                    alt="CCTV Camera"></div>
+            <div class="gallery-card"><img
+                    src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&q=80"
+                    alt="Access Control"></div>
+            <div class="gallery-card center-card"><img
+                    src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80"
+                    alt="Network Wiring"></div>
+            <div class="gallery-card"><img
+                    src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80"
+                    alt="Control Room"></div>
+            <div class="gallery-card"><img
+                    src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
+                    alt="Server Rack"></div>
+        </div>
+    </section>
+
+    <section class="reviews-section" id="reviews">
+        <div class="section-header">
+            <div>
+                <h2>What Our Clients Say</h2>
+                <p class="section-sub">Real feedback from homes and businesses we protect.</p>
+            </div>
+            <button id="toggle-reviews-btn" class="btn-toggle">Show All</button>
+        </div>
+
+        <div class="reviews-layout" id="reviews-summary-layout">
+            <div class="reviews-list">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Alex M.</span>
+                        <span class="review-stars">★★★★★</span>
                     </div>
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="reviewer-name">Sarah K.</span>
-                            <span class="review-stars">★★★★★</span>
-                        </div>
-                        <p class="review-text">The access control app is super smooth. Our office team loves not
-                            carrying physical keys.</p>
-                    </div>
+                    <p class="review-text">Outstanding setup. Installed 8 CCTV cameras around our warehouse with
+                        zero downtime.</p>
                 </div>
                 <div class="review-card">
-                    <h3 style="margin-bottom: 0.75rem;">Leave a Review</h3>
-                    <input type="text" id="review-name-input" class="form-control" placeholder="Your name"
-                        style="margin-bottom: 0.75rem;">
-                    <div class="interactive-stars" id="starPicker" style="margin-bottom: 0.75rem;">
-                        <span onclick="setRating(1)">★</span>
-                        <span onclick="setRating(2)">★</span>
-                        <span onclick="setRating(3)">★</span>
-                        <span onclick="setRating(4)">★</span>
-                        <span onclick="setRating(5)">★</span>
+                    <div class="review-header">
+                        <span class="reviewer-name">Sarah K.</span>
+                        <span class="review-stars">★★★★★</span>
                     </div>
-                    <textarea id="review-text-input" class="form-control" placeholder="Your feedback..." rows="3"
-                        style="margin-bottom: 0.75rem;"></textarea>
-                    <p id="review-status" class="booking-status" style="display:none; margin-bottom: 0.5rem;"></p>
-                    <button id="review-submit-btn" class="btn-submit">Submit Review</button>
+                    <p class="review-text">The access control app is super smooth. Our office team loves not
+                        carrying physical keys.</p>
                 </div>
             </div>
-
-            <!-- Grid View for Reviews (Hidden by default) -->
-            <div class="reviews-grid-container hidden" id="reviews-grid"></div>
-        </section>
-
-        <!-- About / Contact Section -->
-        <section class="about-section" id="about">
-            <h2>About SecureVista</h2>
-            <p class="section-sub">Providing top-tier low-voltage integration and peace of mind since 2018.</p>
-            <div class="contact-details">
-                <p>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path
-                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                    <strong>Phone:</strong> <span id="contact-phone">+1 (800) 555-0199</span>
-                </p>
-                <p>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                    </svg>
-                    <strong>Email:</strong> <span id="contact-email">support@securevista.com</span>
-                </p>
-                <p>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <strong>Address:</strong> <span id="contact-address">100 Technology Dr, Suite 400</span>
-                </p>
+            <div class="review-card">
+                <h3 style="margin-bottom: 0.75rem;">Leave a Review</h3>
+                <input type="text" id="review-name-input" class="form-control" placeholder="Your name"
+                       style="margin-bottom: 0.75rem;">
+                <div class="interactive-stars" id="starPicker" style="margin-bottom: 0.75rem;">
+                    <span onclick="setRating(1)">★</span>
+                    <span onclick="setRating(2)">★</span>
+                    <span onclick="setRating(3)">★</span>
+                    <span onclick="setRating(4)">★</span>
+                    <span onclick="setRating(5)">★</span>
+                </div>
+                <textarea id="review-text-input" class="form-control" placeholder="Your feedback..." rows="3"
+                          style="margin-bottom: 0.75rem;"></textarea>
+                <p id="review-status" class="booking-status" style="display:none; margin-bottom: 0.5rem;"></p>
+                <button id="review-submit-btn" class="btn-submit">Submit Review</button>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <footer>
-        <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">SecureVista</span>. All rights reserved.</p>
-    </footer>
+        <div class="reviews-grid-container hidden" id="reviews-grid"></div>
+    </section>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        window.CLIENT_DATA = {
-            businessName: /*[[${client.businessName}]]*/ "SecureVista",
-            tagline: /*[[${client.tagline}]]*/ "Next-Gen Security & Low-Voltage Infrastructure",
-            phone: /*[[${client.phone}]]*/ "+1 (800) 555-0199",
-            email: /*[[${client.email}]]*/ "support@securevista.com",
-            address: /*[[${client.address}]]*/ "100 Technology Dr, Suite 400"
+    <section class="about-section" id="about">
+        <h2>About SecureVista</h2>
+        <p class="section-sub">Providing top-tier low-voltage integration and peace of mind since 2018.</p>
+        <div class="contact-details">
+            <p>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <strong>Phone:</strong> <span id="contact-phone">+1 (800) 555-0199</span>
+            </p>
+            <p>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <strong>Email:</strong> <span id="contact-email">support@securevista.com</span>
+            </p>
+            <p>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg>
+                <strong>Address:</strong> <span id="contact-address">100 Technology Dr, Suite 400</span>
+            </p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">SecureVista</span>. All rights reserved.</p>
+</footer>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.CLIENT_DATA = {
+        businessName: /*[[${client.businessName}]]*/ "SecureVista",
+        tagline: /*[[${client.tagline}]]*/ "Next-Gen Security & Low-Voltage Infrastructure",
+        phone: /*[[${client.phone}]]*/ "+1 (800) 555-0199",
+        email: /*[[${client.email}]]*/ "support@securevista.com",
+        address: /*[[${client.address}]]*/ "100 Technology Dr, Suite 400"
+    };
+    window.API_BASE = "";
+    /*]]>*/
+</script>
+<script th:src="@{/icons.js}"></script>
+<script th:src="@{/demoapi.js}"></script>
+<script th:src="@{/demoscript.js}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const today = new Date();
+        let currYear = today.getFullYear();
+        let currMonth = today.getMonth();
+
+        // Status Data Configuration
+        const scheduleData = {
+            "2026-09-08": { status: "busy", label: "Busy", slots: ["03:00 PM"] },
+            "2026-09-10": { status: "full", label: "Full", slots: [] }
         };
-        // Same-origin demo — demoapi.js's fetch calls (GET /services, POST /booking)
-        // hit this same GrowthMultiplier server, so no separate backend URL is
-        // needed here (unlike the standalone per-client deploy).
-        window.API_BASE = "";
-        /*]]>*/
-    </script>
-    <script th:src="@{/icons.js}"></script>
-    <script th:src="@{/demoapi.js}"></script>
-    <script th:src="@{/demoscript.js}"></script>
+
+        const trigger = document.getElementById('datepickerTrigger');
+        const drawer = document.getElementById('calendarDrawer');
+        const triggerText = document.getElementById('triggerText');
+        const monthYearEl = document.getElementById('calMonthYear');
+        const gridEl = document.getElementById('calGrid');
+        const slotContainer = document.getElementById('slotContainer');
+        const slotPills = document.getElementById('slotPills');
+        const hiddenDateInput = document.getElementById('preferredDate');
+        const hiddenTimeInput = document.getElementById('preferredTime');
+
+        // Expand/Collapse Drawer
+        trigger.addEventListener('click', () => {
+            drawer.classList.toggle('open');
+            trigger.classList.toggle('active');
+        });
+
+        function renderCalendar() {
+            monthYearEl.textContent = `${months[currMonth]} ${currYear}`;
+            gridEl.innerHTML = '';
+
+            const firstDayIndex = new Date(currYear, currMonth, 1).getDay();
+            const totalDays = new Date(currYear, currMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'cal-day disabled';
+                gridEl.appendChild(empty);
+            }
+
+            for (let d = 1; d <= totalDays; d++) {
+                const dateKey = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const info = scheduleData[dateKey] || { status: "avail", label: "Available", slots: ["09:00 AM", "01:00 PM"] };
+
+                const dayEl = document.createElement('div');
+                dayEl.className = `cal-day ${info.status}`;
+                if (hiddenDateInput.value === dateKey) dayEl.classList.add('selected');
+
+                dayEl.innerHTML = `
+                        <span class="day-num">${d}</span>
+                        <span class="day-status">${info.label}</span>
+                    `;
+
+                if (info.status !== 'full') {
+                    dayEl.addEventListener('click', () => {
+                        document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('selected'));
+                        dayEl.classList.add('selected');
+                        hiddenDateInput.value = dateKey;
+                        showSlots(info.slots);
+                        updateTriggerDisplay();
+                    });
+                }
+
+                gridEl.appendChild(dayEl);
+            }
+        }
+
+        function showSlots(slots) {
+            slotPills.innerHTML = '';
+            slotContainer.style.display = 'block';
+
+            slots.forEach(time => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'slot-pill';
+                if (hiddenTimeInput.value === time) btn.classList.add('selected');
+                btn.textContent = time;
+
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.slot-pill').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    hiddenTimeInput.value = time;
+                    updateTriggerDisplay();
+                });
+
+                slotPills.appendChild(btn);
+            });
+        }
+
+        function updateTriggerDisplay() {
+            if (hiddenDateInput.value) {
+                triggerText.classList.remove('placeholder');
+                triggerText.textContent = `${hiddenDateInput.value} ${hiddenTimeInput.value ? '@ ' + hiddenTimeInput.value : ''}`;
+            }
+        }
+
+        document.getElementById('calPrev').addEventListener('click', () => {
+            currMonth--; if (currMonth < 0) { currMonth = 11; currYear--; }
+            renderCalendar();
+        });
+
+        document.getElementById('calNext').addEventListener('click', () => {
+            currMonth++; if (currMonth > 11) { currMonth = 0; currYear++; }
+            renderCalendar();
+        });
+
+        document.getElementById('calDoneBtn').addEventListener('click', () => {
+            drawer.classList.remove('open');
+            trigger.classList.remove('active');
+        });
+
+        renderCalendar();
+    });
+</script>
 </body>
 
 </html>
