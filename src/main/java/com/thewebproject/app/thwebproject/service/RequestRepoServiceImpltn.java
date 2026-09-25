@@ -1,7 +1,7 @@
-package com.growthmul.app.growthmultiplier.service;
+package com.thewebproject.app.thwebproject.service;
 
-import com.growthmul.app.growthmultiplier.entity.Requests;
-import com.growthmul.app.growthmultiplier.repositories.RequestRepo;
+import com.thewebproject.app.thwebproject.entity.Requests;
+import com.thewebproject.app.thwebproject.repositories.RequestRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.growthmul.app.growthmultiplier.exceptions;
+package com.thewebproject.app.thwebproject.exceptions;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

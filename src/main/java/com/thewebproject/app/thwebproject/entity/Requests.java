@@ -1,4 +1,4 @@
-package com.growthmul.app.growthmultiplier.entity;
+package com.thewebproject.app.thwebproject.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.growthmul.app</groupId>
-    <artifactId>GrowthMultiplier</artifactId>
+    <artifactId>ThWebProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>GrowthMultiplier</name>
     <description>GrowthMultiplier</description>

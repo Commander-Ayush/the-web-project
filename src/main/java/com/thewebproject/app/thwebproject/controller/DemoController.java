@@ -1,7 +1,7 @@
-package com.growthmul.app.growthmultiplier.controller;
+package com.thewebproject.app.thwebproject.controller;
 
-import com.growthmul.app.growthmultiplier.model.Client;
-import com.growthmul.app.growthmultiplier.service.ClientDirectoryService;
+import com.thewebproject.app.thwebproject.model.Client;
+import com.thewebproject.app.thwebproject.service.ClientDirectoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

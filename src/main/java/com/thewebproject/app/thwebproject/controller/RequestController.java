@@ -1,7 +1,7 @@
-package com.growthmul.app.growthmultiplier.controller;
+package com.thewebproject.app.thwebproject.controller;
 
-import com.growthmul.app.growthmultiplier.entity.Requests;
-import com.growthmul.app.growthmultiplier.service.RequestRepoServiceInterface;
+import com.thewebproject.app.thwebproject.entity.Requests;
+import com.thewebproject.app.thwebproject.service.RequestRepoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;

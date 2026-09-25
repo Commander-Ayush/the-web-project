@@ -1,4 +1,4 @@
-package com.growthmul.app.growthmultiplier.model;
+package com.thewebproject.app.thwebproject.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

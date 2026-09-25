@@ -1,6 +1,6 @@
-package com.growthmul.app.growthmultiplier.service;
+package com.thewebproject.app.thwebproject.service;
 
-import com.growthmul.app.growthmultiplier.model.Client;
+import com.thewebproject.app.thwebproject.model.Client;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;

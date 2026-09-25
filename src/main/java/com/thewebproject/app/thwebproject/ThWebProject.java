@@ -1,13 +1,13 @@
-package com.growthmul.app.growthmultiplier;
+package com.thewebproject.app.thwebproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GrowthMultiplierApplication {
+public class ThWebProject {
 
     public static void main(String[] args) {
-        SpringApplication.run(GrowthMultiplierApplication.class, args);
+        SpringApplication.run(ThWebProject.class, args);
     }
 
 }
