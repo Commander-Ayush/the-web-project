@@ -405,9 +405,8 @@
         let bookingResetTimer = 0;
 
         const planValues = {
-            flexible: "Flexible - $1,199 setup + $119/mo",
-            "2year": "2-Year Bundle - $2,799 one-time",
-            "4year": "4-Year Bundle - $3,799 one-time"
+            annual: "Annual - $1,995 setup + $199/mo for 12 months",
+            loyalty: "Loyalty - $1,495 setup + $169/mo for 24 months"
         };
 
         function getFocusableElements(overlay) {

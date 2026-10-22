@@ -16,7 +16,8 @@
 // Same-origin demo — runs inside the GrowthMultiplier server itself,
 // so no separate backend URL is needed here (unlike the standalone
 // per-client deploy, which points api.js at the client's own VPS).
-const API_BASE = "";
+const CLIENT_ID = Number(window.CLIENT_DATA && window.CLIENT_DATA.id) || 0;
+const API_BASE = `/api/demo/${CLIENT_ID}`;
 
 async function apiGet(path) {
     const res = await fetch(API_BASE + path);
@@ -54,9 +55,9 @@ const Api = {
 
     // POST /booking  body: { firstName, lastName, phone, email, address,
     //                         serviceOfferingId, preferredDate, notes }
-    submitBooking: (payload) => apiPost("/booking", payload),
+    submitBooking: (payload) => apiPost("/bookings", payload),
 
-    // Deliberately no getCompany / getReviews / submitReview here —
-    // demoscript.js guards every call with `Api.getX &&`, so those
-    // features degrade to the static CLIENT_DATA / hardcoded reviews.
+    getReviews: () => apiGet("/reviews"),
+    submitReview: (payload) => apiPost("/reviews", payload),
+
 };

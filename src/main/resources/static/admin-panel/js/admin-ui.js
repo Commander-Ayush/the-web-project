@@ -67,7 +67,7 @@ function showPanel(id) {
   const link = document.querySelector(`.admin-nav a[data-panel="${id}"]`);
   if (link) link.classList.add('active');
 
-  const titles = { dashboard: 'Dashboard', bookings: 'Bookings', orders: 'Orders', sales: 'Sales Analytics', reviews: 'Review Moderation' };
+  const titles = { dashboard: 'Dashboard', bookings: 'Bookings', orders: 'Orders', sales: 'Sales Analytics', reviews: 'Review Moderation', gallery: 'Gallery Management' };
   const titleEl = document.getElementById('panel-title');
   if (titleEl) titleEl.textContent = titles[id] || 'Admin';
 
@@ -741,7 +741,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initLoginForm();
 
   const isLoginPage = !!document.getElementById('login-form');
-  if (!isLoginPage && !getToken()) { goToLogin(); return; }
+  // Demo admin is intentionally accessible without a login.
+
+  const requestedPanel = location.hash.slice(1);
+  if (requestedPanel && document.getElementById('panel-' + requestedPanel)) {
+    showPanel(requestedPanel);
+  }
 
   /* Mobile sidebar */
   const toggle = document.getElementById('sidebar-toggle');
@@ -808,7 +813,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /* Logout */
 const logoutBtn = document.getElementById('logout-btn');
 if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => { clearToken(); location.href = 'login.html'; });
+  logoutBtn.textContent = 'Back to Demo Site';
+  logoutBtn.addEventListener('click', () => { location.href = `/demo-security-site/${DEMO_CLIENT_ID}`; });
 }
 
 /* Modal backdrop close */

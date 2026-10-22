@@ -1,7 +1,11 @@
 // This is the GrowthMultiplier demo build — the admin panel is served
 // from the same Spring Boot app as the dummy controllers below, so
 // requests use relative paths (same pattern as demosite.html's booking form).
-const API_BASE = "";
+const DEMO_CLIENT_ID = (() => {
+  const match = location.pathname.match(/\/demo-security-site\/admin\/(\d+)/);
+  return match ? Number(match[1]) : Number(new URLSearchParams(location.search).get('clientId')) || 0;
+})();
+const API_BASE = `/api/demo/${DEMO_CLIENT_ID}`;
 
 function getToken() {
   return localStorage.getItem('sv_admin_token');
@@ -23,25 +27,12 @@ function goToLogin() {
 }
 
 async function authedRequest(path, options = {}) {
-  const token = getToken();
-  if (!token) {
-    goToLogin();
-    throw new Error('Not logged in');
-  }
-
   const res = await fetch(API_BASE + path, {
     ...options,
     headers: {
       ...(options.headers || {}),
-      'Authorization': 'Bearer ' + token,
     },
   });
-
-  if (res.status === 401) {
-    // token missing/expired/invalid — bounce back to login
-    goToLogin();
-    throw new Error('Session expired');
-  }
   if (!res.ok) {
     let message = `Request failed: ${res.status}`;
     try {
@@ -105,3 +96,11 @@ const AdminApi = {
   deleteReview: (id) => authedSend('DELETE', `/admin/reviews/${id}`),
 
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="dashboard.html"]').forEach(a => {
+    const hash = a.getAttribute('href').split('#')[1];
+    a.href = `/demo-security-site/admin/${DEMO_CLIENT_ID}${hash ? `#${hash}` : ''}`;
+  });
+  document.querySelectorAll('a[href="services.html"]').forEach(a => a.href = `/demo-security-site/admin/${DEMO_CLIENT_ID}/services`);
+});

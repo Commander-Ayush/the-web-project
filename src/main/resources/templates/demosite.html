@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${client.businessName} + ' | Security Solutions'">SecureVista</title>
     <link rel="stylesheet" th:href="@{/demostyle.css}">
+    <link rel="stylesheet" th:href="@{/assets/camera/camera.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -236,6 +237,39 @@
         </div>
     </section>
 
+    <!-- This visual module is self-contained and never calls the production API. -->
+    <section class="sv-camera" aria-labelledby="sv-camera-title">
+        <div class="sv-camera__topline">
+            <h2 id="sv-camera-title">A closer look.</h2>
+            <span class="sv-camera__eyebrow">SMART SURVEILLANCE / 01</span>
+        </div>
+        <div class="sv-camera__display">
+            <div id="sv-camera-stage" class="sv-camera__stage" role="group" tabindex="0"
+                 aria-label="Interactive CCTV camera" aria-describedby="sv-camera-hint sv-camera-keyboard">
+                <img class="sv-camera__poster sv-camera__poster--wide"
+                     th:src="@{/assets/camera/camera-poster-wide.webp}" width="1020" height="1020" alt=""
+                     aria-hidden="true" fetchpriority="high" decoding="sync">
+                <img class="sv-camera__poster sv-camera__poster--narrow"
+                     th:src="@{/assets/camera/camera-poster-narrow.webp}" width="1020" height="1020" alt=""
+                     aria-hidden="true" fetchpriority="high" decoding="sync">
+            </div>
+            <p id="sv-camera-status" class="sv-camera__status" role="status" hidden>Loading the camera…</p>
+            <noscript>
+                <p class="sv-camera__status">Enable JavaScript to explore the camera.</p>
+            </noscript>
+            <span class="sv-camera__corner sv-camera__corner--tl" aria-hidden="true"></span>
+            <span class="sv-camera__corner sv-camera__corner--br" aria-hidden="true"></span>
+        </div>
+        <div class="sv-camera__bottomline">
+            <p id="sv-camera-hint">Move your cursor. Find your angle.</p>
+            <div class="sv-camera__controls">
+                <button type="button" id="sv-camera-centre" disabled>Centre camera</button>
+                <button type="button" id="sv-camera-pause" aria-pressed="false" disabled>Pause tracking</button>
+            </div>
+        </div>
+        <p id="sv-camera-keyboard" class="sv-camera__sr-only">Use arrow keys to aim the camera. Press Home to centre it.</p>
+    </section>
+
     <section class="services" id="services">
         <div class="section-header">
             <div>
@@ -330,13 +364,12 @@
 
                 <div class="form-row">
                     <div class="form-field full-width">
-                        <label>PREFERRED SURVEY DATE & TIME</label>
+                        <label>PREFERRED DATE</label>
 
                         <input type="hidden" id="preferredDate" name="preferredDate" required>
-                        <input type="hidden" id="preferredTime" name="preferredTime" required>
 
                         <div class="datepicker-trigger" id="datepickerTrigger">
-                            <span id="triggerText" class="placeholder">Select Date & Time</span>
+                            <span id="triggerText" class="placeholder">Select a date</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                         </div>
 
@@ -352,11 +385,6 @@
                                 <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
                             </div>
                             <div class="cal-grid" id="calGrid"></div>
-
-                            <div class="slot-container" id="slotContainer" style="display: none;">
-                                <span class="slot-title">Select Time Slot:</span>
-                                <div class="slot-pills" id="slotPills"></div>
-                            </div>
 
                             <div class="drawer-footer">
                                 <button type="button" class="btn-done" id="calDoneBtn">Done</button>
@@ -484,11 +512,16 @@
 
 <footer>
     <p>&copy; <span id="footer-year">2026</span> <span id="footer-name">SecureVista</span>. All rights reserved.</p>
+    <p class="sv-camera-credit">3D camera by <a
+            href="https://sketchfab.com/3d-models/cctv-camera-281b2b84260447e49ab4a6b34bf78697" target="_blank"
+            rel="noopener">Just8</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+            rel="noopener">CC BY 4.0</a> · interactive adaptation</p>
 </footer>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
     window.CLIENT_DATA = {
+        id: /*[[${client.id}]]*/ 0,
         businessName: /*[[${client.businessName}]]*/ "SecureVista",
         tagline: /*[[${client.tagline}]]*/ "Next-Gen Security & Low-Voltage Infrastructure",
         phone: /*[[${client.phone}]]*/ "+1 (800) 555-0199",
@@ -501,6 +534,7 @@
 <script th:src="@{/icons.js}"></script>
 <script th:src="@{/demoapi.js}"></script>
 <script th:src="@{/demoscript.js}"></script>
+<script type="module" th:src="@{/assets/camera/camera.js}"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -511,8 +545,8 @@
 
         // Status Data Configuration
         const scheduleData = {
-            "2026-09-08": { status: "busy", label: "Busy", slots: ["03:00 PM"] },
-            "2026-09-10": { status: "full", label: "Full", slots: [] }
+            "2026-09-08": { status: "busy", label: "Busy" },
+            "2026-09-10": { status: "full", label: "Full" }
         };
 
         const trigger = document.getElementById('datepickerTrigger');
@@ -520,10 +554,7 @@
         const triggerText = document.getElementById('triggerText');
         const monthYearEl = document.getElementById('calMonthYear');
         const gridEl = document.getElementById('calGrid');
-        const slotContainer = document.getElementById('slotContainer');
-        const slotPills = document.getElementById('slotPills');
         const hiddenDateInput = document.getElementById('preferredDate');
-        const hiddenTimeInput = document.getElementById('preferredTime');
 
         // Expand/Collapse Drawer
         trigger.addEventListener('click', () => {
@@ -546,7 +577,7 @@
 
             for (let d = 1; d <= totalDays; d++) {
                 const dateKey = `${currYear}-${String(currMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                const info = scheduleData[dateKey] || { status: "avail", label: "Available", slots: ["09:00 AM", "01:00 PM"] };
+                const info = scheduleData[dateKey] || { status: "avail", label: "Available" };
 
                 const dayEl = document.createElement('div');
                 dayEl.className = `cal-day ${info.status}`;
@@ -562,41 +593,12 @@
                         document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('selected'));
                         dayEl.classList.add('selected');
                         hiddenDateInput.value = dateKey;
-                        showSlots(info.slots);
-                        updateTriggerDisplay();
+                        triggerText.classList.remove('placeholder');
+                        triggerText.textContent = dateKey;
                     });
                 }
 
                 gridEl.appendChild(dayEl);
-            }
-        }
-
-        function showSlots(slots) {
-            slotPills.innerHTML = '';
-            slotContainer.style.display = 'block';
-
-            slots.forEach(time => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'slot-pill';
-                if (hiddenTimeInput.value === time) btn.classList.add('selected');
-                btn.textContent = time;
-
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.slot-pill').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    hiddenTimeInput.value = time;
-                    updateTriggerDisplay();
-                });
-
-                slotPills.appendChild(btn);
-            });
-        }
-
-        function updateTriggerDisplay() {
-            if (hiddenDateInput.value) {
-                triggerText.classList.remove('placeholder');
-                triggerText.textContent = `${hiddenDateInput.value} ${hiddenTimeInput.value ? '@ ' + hiddenTimeInput.value : ''}`;
             }
         }
 

@@ -38,6 +38,29 @@ public class DemoController {
         return "demosite";
     }
 
+    @GetMapping("/demo-security-site/admin/{id}")
+    public String demoAdmin(@PathVariable int id) {
+        requireClient(id);
+        return "forward:/admin-panel/dashboard.html";
+    }
+
+    @GetMapping("/demo-security-site/admin/{id}/dashboard.html")
+    public String demoAdminDashboardAlias(@PathVariable int id) {
+        requireClient(id);
+        return "forward:/admin-panel/dashboard.html";
+    }
+
+    @GetMapping("/demo-security-site/admin/{id}/services")
+    public String demoAdminServices(@PathVariable int id) {
+        requireClient(id);
+        return "forward:/admin-panel/services.html";
+    }
+
+    private void requireClient(int id) {
+        clientDirectoryService.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "No client found for id " + id));
+    }
+
     private Client defaultClient() {
         return new Client(
                 0,

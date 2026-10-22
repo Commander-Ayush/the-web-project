@@ -33,3 +33,9 @@ build/
 .vscode/
 
 .env
+
+# Adventure Bubble game artifacts
+/adventure-bubble/
+/Adventure-Bubble.zip
+/adventure-bubble-deploy.tar.gz
+/adventure-bubble-sprites-deploy.tar.gz

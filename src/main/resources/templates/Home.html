@@ -168,65 +168,47 @@
         <div>
             <div class="section-label">Pricing Plans</div>
             <h2 class="section-title" style="color:var(--white);">Simple, transparent pricing</h2>
-            <p class="section-desc">Choose the term that suits your growth horizon. No hidden fees.</p>
+            <p class="section-desc">Founding-client pricing for our first five security integration companies. All prices are in USD.</p>
         </div>
     </div>
 
-    <div class="plans-grid reveal">
-        <!-- Plan 1 -->
+    <div class="plans-grid plans-grid-two reveal">
         <div class="plan-card">
-            <div class="plan-name">Flexible</div>
-            <div class="plan-price"><sup>$</sup>1,199</div>
-            <div class="plan-duration">one-time setup + $119/mo maintenance</div>
+            <div class="plan-badge">Founding Client — Save $500</div>
+            <div class="plan-name">Annual Plan</div>
+            <div class="plan-price"><sup>$</sup>1,995</div>
+            <div class="plan-duration"><span style="text-decoration:line-through; opacity:.65;">$2,495 setup</span> introductory setup + $199/month for 12 months</div>
             <div class="plan-divider"></div>
             <ul class="plan-features">
-                <li>Custom-designed website</li>
-                <li>Domain, SSL & secure hosting</li>
-                <li>Uptime & performance monitoring</li>
-                <li>Broken-link & minor fixes included</li>
-                <li>Mobile-responsive, SEO foundation</li>
-                <li>Cancel anytime, 30 days' notice</li>
+                <li>Customized security integrator website</li>
+                <li>Storefront, admin panel & database</li>
+                <li>Managed hosting, SSL & monitoring</li>
+                <li>Corrective maintenance included</li>
+                <li>30 minutes of minor changes monthly</li>
+                <li>$398 refundable service deposit</li>
             </ul>
-            <a href="#" class="plan-btn outline" onclick="openModal('flexible'); return false;">Get Started</a>
+            <a href="#" class="plan-btn outline" onclick="openModal('annual'); return false;">Choose Annual</a>
         </div>
 
-        <!-- Plan 2 -->
-        <div class="plan-card">
-            <div class="plan-name">2-Year Bundle</div>
-            <div class="plan-price"><sup>$</sup>2,799</div>
-            <div class="plan-duration">one-time payment, 24 months covered</div>
-            <div class="plan-divider"></div>
-            <ul class="plan-features">
-                <li>Everything in Flexible</li>
-                <li>Setup + full maintenance included</li>
-                <li>No further billing for 24 months</li>
-                <li>Save ~$1,080 vs. pay-as-you-go</li>
-                <li>Priority content updates</li>
-                <li>Priority queue for change requests</li>
-            </ul>
-            <a href="#" class="plan-btn outline" onclick="openModal('2year'); return false;">Get Started</a>
-        </div>
-
-        <!-- Plan 3 — Featured -->
         <div class="plan-card featured">
-            <div class="plan-badge">Best Value</div>
-            <div class="plan-name">4-Year Bundle</div>
-            <div class="plan-price"><sup>$</sup>3,799</div>
-            <div class="plan-duration">one-time payment, 48 months covered</div>
+            <div class="plan-badge">Best Value — Founding Client</div>
+            <div class="plan-name">Loyalty Plan</div>
+            <div class="plan-price"><sup>$</sup>1,495</div>
+            <div class="plan-duration"><span style="text-decoration:line-through; opacity:.65;">$1,995 setup</span> introductory setup + $169/month for 24 months</div>
             <div class="plan-divider"></div>
             <ul class="plan-features">
-                <li>Everything in 2-Year Bundle</li>
-                <li>Setup + full maintenance included</li>
-                <li>No further billing for 48 months</li>
-                <li>Save ~$1,960 vs. pay-as-you-go</li>
-                <li>Dedicated priority support</li>
-                <li>Locked-in price, zero surprises</li>
+                <li>Everything included in the Annual Plan</li>
+                <li>Lowest monthly maintenance rate</li>
+                <li>Setup price locked at launch</li>
+                <li>Corrective maintenance included</li>
+                <li>30 minutes of minor changes monthly</li>
+                <li>$338 refundable service deposit</li>
             </ul>
-            <a href="#" class="plan-btn solid" onclick="openModal('4year'); return false;">Get Started</a>
+            <a href="#" class="plan-btn solid" onclick="openModal('loyalty'); return false;">Choose Loyalty</a>
         </div>
     </div>
     <p class="section-desc" style="margin-top:24px; font-size:13px;">
-        Maintenance covers domain, SSL, monitoring, and minor fixes. New features (booking forms, galleries, new pages, integrations) are scoped and billed separately based on complexity — see
+        The founding-client setup discount is limited to the first five qualifying customers. Deposits are credited toward the final two monthly payments after successful completion of the term. New features and substantial redesigns are quoted separately — see
         <a href="#" onclick="openTerms(); return false;" style="color:var(--yellow-dark); text-decoration:underline;">Terms &amp; Conditions</a>.
     </p>
 </section>
@@ -245,14 +227,14 @@
                 <div class="trust-num">01</div>
                 <div>
                     <div class="trust-point-title">You own everything</div>
-                    <div class="trust-point-text">Your domain, your content, your data. No lock-in, ever.</div>
+                    <div class="trust-point-text">Your content, your data. No lock-in, ever.</div>
                 </div>
             </div>
             <div class="trust-point">
                 <div class="trust-num">02</div>
                 <div>
-                    <div class="trust-point-title">Launched in 2 weeks</div>
-                    <div class="trust-point-text">From deposit to live — most sites are online within 14 business
+                    <div class="trust-point-title">Launched in 24 hours</div>
+                    <div class="trust-point-text">From deposit to live — most sites are online within 24 hours
                         days.</div>
                 </div>
             </div>
@@ -362,9 +344,8 @@
                     <label for="plan">Preferred Plan</label>
                     <select id="plan" name="plan" required>
                         <option value="" disabled selected>Select a plan</option>
-                        <option value="Flexible - $1,199 setup + $119/mo">Flexible — $1,199 setup + $119/mo</option>
-                        <option value="2-Year Bundle - $2,799 one-time">2-Year Bundle — $2,799 one-time</option>
-                        <option value="4-Year Bundle - $3,799 one-time">4-Year Bundle — $3,799 one-time</option>
+                        <option value="Annual - $1,995 setup + $199/mo for 12 months">Annual — $1,995 setup + $199/month</option>
+                        <option value="Loyalty - $1,495 setup + $169/mo for 24 months">Loyalty — $1,495 setup + $169/month</option>
                         <option value="Not sure yet">Not sure yet — help me decide</option>
                     </select>
                 </div>
@@ -405,41 +386,101 @@
             <h3 class="modal-title">Terms &amp; Conditions</h3>
         </div>
         <div style="font-size:14px; line-height:1.7; color:var(--black);">
-            <p><strong>1. Scope of Maintenance</strong><br>
-                The monthly maintenance fee (or the maintenance period included in a Bundle plan) covers: domain name
-                registration and renewal, SSL certificate issuance and renewal, uptime and performance monitoring,
-                routine security patches and dependency updates, and fixing broken links, minor content edits, and
-                small layout bug fixes. Hosting and infrastructure costs are included.</p>
-            <p><strong>2. Out-of-Scope — New Features</strong><br>
-                Maintenance does not include new functionality. Examples include, but are not limited to: booking or
-                appointment forms, image carousels or galleries, new pages or sections, third-party integrations
-                (payments, CRM, analytics beyond basic setup), custom design overhauls, or e-commerce functionality.
-                Such requests are scoped and quoted separately based on complexity, and require written (email)
-                approval before work begins.</p>
-            <p><strong>3. Plan Terms</strong><br>
-                <em>Flexible:</em> Setup fee due upfront; maintenance billed monthly thereafter. Cancel anytime with
-                30 days' written notice; setup fee is non-refundable.<br>
-                <em>2-Year Bundle:</em> One-time payment of $2,800 due upfront, covering setup and maintenance for 24
-                months from activation. No further payments due during this period unless new features are
-                requested (see Section 2). Non-refundable after 14 days from activation. At the end of 24 months,
-                service continues month-to-month at the standard maintenance rate unless a new bundle is purchased.<br>
-                <em>4-Year Bundle:</em> One-time payment of $4,800 due upfront, covering setup and maintenance for 48
-                months from activation. Same renewal and refund terms as the 2-Year Bundle, adjusted for the 48-month
-                period.</p>
-            <p><strong>4. Payment</strong><br>
-                Setup fees (or bundle payments) are due upfront before work begins. Monthly maintenance, where
-                applicable, is billed in advance. Failure to pay within 15 days may result in suspension of hosting
-                and domain services.</p>
-            <p><strong>5. Domain Ownership</strong><br>
-                The domain is registered and managed on the client's behalf during the active plan. Upon contract end
-                or cancellation, domain transfer to the client's own registrar is available upon request within 30
-                days; after that, Growth Multiplier is not obligated to retain the domain.</p>
-            <p><strong>6. Client Responsibilities</strong><br>
-                The client must provide content, branding assets, and timely feedback or approvals. Delays in client
-                response may extend delivery timelines without penalty to Growth Multiplier.</p>
-            <p><strong>7. Termination</strong><br>
-                Either party may terminate with written notice per the plan terms above. Growth Multiplier reserves
-                the right to suspend service for non-payment or abusive use.</p>
+            <p><strong>1. Plans, Commitment and Founding-Client Pricing</strong><br>
+                All prices are in USD and exclude applicable taxes, domain charges and approved third-party expenses.
+                The Annual Plan is $1,995 setup plus $199 per month for a 12-month minimum term. The Loyalty Plan is
+                $1,495 setup plus $169 per month for a 24-month minimum term. These introductory setup prices are
+                limited to the first five qualifying customers; standard setup prices are $2,495 and $1,995 respectively.</p>
+
+            <p><strong>2. Refundable Service Deposit</strong><br>
+                A deposit equal to two monthly payments is due at signing: $398 for Annual or $338 for Loyalty. After
+                the complete term is fulfilled and the account is current, the deposit is credited toward the final
+                two monthly payments. It may first be applied to unpaid invoices, approved additional work,
+                third-party charges, customer-caused damage or early-termination amounts. Any remaining refundable
+                balance is returned or credited after the account is settled.</p>
+
+            <p><strong>3. Setup Scope</strong><br>
+                Setup includes customization of Growth Multiplier's existing website system, customer branding and
+                supplied content, responsive storefront, consultation form, admin dashboard, booking management,
+                review moderation, service catalogue, gallery configuration, database and initial deployment, SSL,
+                basic technical SEO, two reasonable revision rounds, admin training and 30 days of launch support.
+                Completely original platforms, extensive redesigns and additional functionality require a separate quote.</p>
+
+            <p><strong>4. Included Monthly Maintenance</strong><br>
+                Monthly maintenance includes managed hosting, reasonable database hosting, monitoring, SSL
+                administration, routine backups, security and dependency updates, form and API monitoring, correction
+                of defects in the delivered website, technical support, and up to 30 minutes of minor content or
+                configuration changes per month. Work is measured in 15-minute increments and unused time does not roll over.</p>
+
+            <p><strong>5. Corrective Maintenance</strong><br>
+                An existing feature that worked when delivered but unexpectedly stops working is corrective
+                maintenance. This includes provider-caused broken links, failed forms, admin errors, database or API
+                defects, layout regressions and functionality that no longer matches the accepted specification.
+                Provider-caused corrections do not consume the monthly change allowance.</p>
+
+            <p><strong>6. Customer-Caused Repairs</strong><br>
+                Damage caused by the customer, its employees, another developer, unauthorized code changes, deleted
+                records, incorrect DNS changes, compromised credentials, unsupported software or failure to follow
+                written security instructions is not included and may be repaired as additional work.</p>
+
+            <p><strong>7. Minor Changes</strong><br>
+                Included minor changes may update existing text, contact details, hours, images, links, prices,
+                service descriptions, policies, colors, spacing or configuration. A request is minor only when it does
+                not require a new layout, page, workflow, database structure, integration or substantial redesign.</p>
+
+            <p><strong>8. Additional Development</strong><br>
+                New pages, sections, UI/UX designs, forms, workflows, database structures, admin capabilities,
+                authentication, payments, integrations, calculators, portals, reports, animations, 3D assets, large
+                migrations and major restructuring are additional development. Work is normally estimated at $75 per
+                hour with a $75 minimum and quoted in writing before work begins. Typical planning ranges are $200–$450
+                for a simple form or section, $400–$800 for a standard page, $650–$1,400 for a custom UI/UX page,
+                $600–$2,000 for an admin feature, and $1,200–$3,000+ for payment functionality. API integrations and
+                major redesigns require custom quotations. Third-party subscriptions, licenses and usage fees are additional.</p>
+
+            <p><strong>9. Content and Legal Responsibility</strong><br>
+                The customer is responsible for the accuracy and legality of its prices, promotions, claims, privacy
+                information, licenses, testimonials and security-industry representations, and for securing rights to
+                all supplied logos, photographs, videos and other content. Growth Multiplier does not independently
+                verify the customer's legal, regulatory, marketing or factual claims.</p>
+
+            <p><strong>10. Third-Party Services and Usage</strong><br>
+                Hosting companies, Cloudinary, registrars, email providers, payment processors, Google services and
+                external APIs operate independently. Growth Multiplier will reasonably investigate failures but cannot
+                guarantee their uninterrupted availability or continued compatibility. Provider changes, outages,
+                usage overages and required upgrades may result in separate charges after notice where practical.</p>
+
+            <p><strong>11. SEO and Support Targets</strong><br>
+                Technical SEO foundations are included, but rankings, traffic, leads, sales and revenue are not
+                guaranteed. Initial response targets during business hours are 12 business hours for a complete outage,
+                one business day for unavailable booking or admin functionality, and two business days for ordinary
+                requests. Response time is not guaranteed resolution time. Requested after-hours work may be billed at
+                $125 per hour with a one-hour minimum.</p>
+
+            <p><strong>12. Domain and Intellectual Property</strong><br>
+                Growth Multiplier registers, owns and manages the domain, which is billed separately. The customer may
+                use it while the account remains active and paid. Transfer or ownership buyout requires a separate
+                written agreement, settlement of all invoices and any agreed transfer charge. The customer owns its
+                supplied brand materials and business data. Growth Multiplier retains its reusable source code,
+                architecture, backend, admin framework, templates, libraries and development tools.</p>
+
+            <p><strong>13. Billing, Late Payment and Suspension</strong><br>
+                Setup fees and deposits are due before work begins; monthly fees are billed in advance. Recurring
+                charges, contract length, domain fees, taxes and cancellation conditions will be disclosed before
+                enrollment. Overdue accounts may receive notice and suspension of hosting, admin access or support.
+                Suspension does not erase amounts already due or automatically end the minimum commitment.</p>
+
+            <p><strong>14. Cancellation and Renewal</strong><br>
+                Cancellation requires at least 30 days' written notice. On early termination, outstanding invoices are
+                due, the deposit may be applied to amounts owed, and the setup discount may be adjusted by up to $500
+                for Annual or $1,000 for Loyalty. At the end of the minimum term, the customer may renew, continue at
+                the then-current month-to-month rate, or end service with the required notice.</p>
+
+            <p><strong>15. Data, Availability and Acceptance</strong><br>
+                After all invoices are paid, the customer may request a reasonable export of booking, review and other
+                customer-submitted business data. Migration, source transfer or deployment elsewhere is additional
+                work. Hosted data may be deleted 30 days after termination. Internet services cannot be guaranteed to
+                be continuously available. By enrolling, the customer accepts the selected setup fee, deposit, monthly
+                billing, minimum term, domain arrangement, maintenance scope and additional-development rules.</p>
         </div>
     </div>
 </div>
