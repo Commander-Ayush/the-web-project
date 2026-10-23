@@ -3,6 +3,7 @@ package com.thewebproject.app.thwebproject.controller;
 import com.thewebproject.app.thwebproject.entity.*;
 import com.thewebproject.app.thwebproject.repositories.*;
 import com.thewebproject.app.thwebproject.service.ClientDirectoryService;
+import com.thewebproject.app.thwebproject.service.DemoReviewSeeder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,12 +18,13 @@ public class DemoAdminApiController {
     private final DemoBookingRepository bookings;
     private final DemoReviewRepository reviews;
     private final ClientDirectoryService clients;
-    public DemoAdminApiController(DemoBookingRepository bookings,DemoReviewRepository reviews,ClientDirectoryService clients){this.bookings=bookings;this.reviews=reviews;this.clients=clients;}
+    private final DemoReviewSeeder reviewSeeder;
+    public DemoAdminApiController(DemoBookingRepository bookings,DemoReviewRepository reviews,ClientDirectoryService clients,DemoReviewSeeder reviewSeeder){this.bookings=bookings;this.reviews=reviews;this.clients=clients;this.reviewSeeder=reviewSeeder;}
     private void requireClient(int id){if(id!=0&&clients.findById(id).isEmpty())throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No demo client found for id "+id);}
 
     @GetMapping("/dashboard/summary")
     public Map<String,Object> summary(@PathVariable int clientId){
-        requireClient(clientId); List<DemoBooking> all=bookings.findByClientIdOrderBySubmittedAtDesc(clientId);
+        requireClient(clientId); reviewSeeder.ensureSeeded(clientId); List<DemoBooking> all=bookings.findByClientIdOrderBySubmittedAtDesc(clientId);
         List<DemoReview> reviewList=reviews.findByClientIdOrderBySubmittedAtDesc(clientId);
         long complete=all.stream().filter(DemoBooking::isCompleted).count(); int revenue=all.stream().filter(DemoBooking::isCompleted).mapToInt(b->PRICE.getOrDefault(b.getService(),200)).sum();
         Map<String,Object> out=new LinkedHashMap<>(); out.put("totalRequests",all.size()); out.put("monthBookings",all.size()); out.put("pending",all.size()-complete); out.put("completed",complete);
@@ -38,7 +40,7 @@ public class DemoAdminApiController {
     private ResponseEntity<Void> setBooking(int clientId,long id,boolean value){return bookings.findByIdAndClientId(id,clientId).map(b->{b.setCompleted(value);bookings.save(b);return ResponseEntity.ok().<Void>build();}).orElse(ResponseEntity.notFound().build());}
     @DeleteMapping("/bookings/{id}") public ResponseEntity<Void> deleteBooking(@PathVariable int clientId,@PathVariable long id){return bookings.findByIdAndClientId(id,clientId).map(b->{bookings.delete(b);return ResponseEntity.ok().<Void>build();}).orElse(ResponseEntity.notFound().build());}
 
-    @GetMapping("/reviews") public List<DemoReview> reviews(@PathVariable int clientId){requireClient(clientId);return reviews.findByClientIdOrderBySubmittedAtDesc(clientId);}
+    @GetMapping("/reviews") public List<DemoReview> reviews(@PathVariable int clientId){requireClient(clientId);reviewSeeder.ensureSeeded(clientId);return reviews.findByClientIdOrderBySubmittedAtDesc(clientId);}
     @PostMapping("/reviews/{id}/approve") public ResponseEntity<Void> approve(@PathVariable int clientId,@PathVariable long id){return reviews.findByIdAndClientId(id,clientId).map(r->{r.setApproved(true);reviews.save(r);return ResponseEntity.ok().<Void>build();}).orElse(ResponseEntity.notFound().build());}
     @DeleteMapping("/reviews/{id}") public ResponseEntity<Void> deleteReview(@PathVariable int clientId,@PathVariable long id){return reviews.findByIdAndClientId(id,clientId).map(r->{reviews.delete(r);return ResponseEntity.ok().<Void>build();}).orElse(ResponseEntity.notFound().build());}
 

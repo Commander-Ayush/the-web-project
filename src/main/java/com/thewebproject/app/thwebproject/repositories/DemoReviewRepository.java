@@ -9,4 +9,5 @@ public interface DemoReviewRepository extends JpaRepository<DemoReview, Long> {
     List<DemoReview> findByClientIdOrderBySubmittedAtDesc(Integer clientId);
     List<DemoReview> findByClientIdAndApprovedTrueOrderBySubmittedAtDesc(Integer clientId);
     Optional<DemoReview> findByIdAndClientId(Long id, Integer clientId);
+    boolean existsByClientIdAndReviewerNameAndText(Integer clientId, String reviewerName, String text);
 }

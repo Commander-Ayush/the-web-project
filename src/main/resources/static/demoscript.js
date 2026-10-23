@@ -297,12 +297,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 5b. Pull real service catalog from backend
-    function buildServiceCardHTML(svc) {
+    // `index` (grid only) staggers the soft-landing animation via the --i CSS variable.
+    function buildServiceCardHTML(svc, index) {
         const iconSvg = typeof resolveIconSvg === "function"
             ? resolveIconSvg(svc.icon)
             : "";
+        const styleAttr = typeof index === "number" ? ` style="--i:${Math.min(index, 8)}"` : "";
         return `
-            <div class="service-card" data-id="${escapeHtml(svc.id)}">
+            <div class="service-card" data-id="${escapeHtml(svc.id)}"${styleAttr}>
                 <div class="service-icon">${iconSvg}</div>
                 <h3>${escapeHtml(svc.name)}</h3>
                 <p>${escapeHtml(svc.description || "")}</p>
@@ -315,11 +317,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const servicesGrid = document.getElementById('services-grid');
         if (!stage || !Array.isArray(services) || services.length === 0) return false;
 
-        const cardsHtml = services.map(buildServiceCardHTML).join('');
-        stage.innerHTML = cardsHtml;
+        stage.innerHTML = services.map((svc) => buildServiceCardHTML(svc)).join('');
 
         if (servicesGrid) {
-            servicesGrid.innerHTML = cardsHtml;
+            servicesGrid.innerHTML = services.map((svc, i) => buildServiceCardHTML(svc, i)).join('');
         }
 
         return true;
@@ -368,33 +369,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     bootServices();
 
-    // 7. Reviews "Show All" Toggle Logic
+    // 7. Reviews — only reviews the admin has approved are shown (GET /reviews returns approved only).
+    const REVIEW_SUMMARY_COUNT = 2;
     const toggleReviewsBtn = document.getElementById('toggle-reviews-btn');
     const reviewsSummaryLayout = document.getElementById('reviews-summary-layout');
+    const reviewsList = document.getElementById('reviews-list');
     const reviewsGrid = document.getElementById('reviews-grid');
 
-    if (toggleReviewsBtn && reviewsSummaryLayout && reviewsGrid) {
-        const allReviews = [
-            { name: "Alex M.", stars: "★★★★★", text: "Outstanding setup. Installed 8 CCTV cameras around our warehouse with zero downtime." },
-            { name: "Sarah K.", stars: "★★★★★", text: "The access control app is super smooth. Our office team loves not carrying physical keys." },
-            { name: "David P.", stars: "★★★★★", text: "Fast maintenance response time! They fixed our panel issue within 2 hours." },
-            { name: "Elena R.", stars: "★★★★★", text: "Clean cabling and high quality 4K camera streams. Very professional team." },
-            { name: "Marcus T.", stars: "★★★★★", text: "24/7 monitoring gives us total peace of mind for our retail store." }
-        ];
+    function starString(n) {
+        const count = Math.max(0, Math.min(5, Number(n) || 0));
+        return '★'.repeat(count) + '☆'.repeat(5 - count);
+    }
 
-        allReviews.forEach(rev => {
-            const card = document.createElement('div');
-            card.className = 'review-card';
-            card.innerHTML = `
+    function buildReviewCardHTML(rev) {
+        return `
+            <div class="review-card">
                 <div class="review-header">
-                    <span class="reviewer-name">${rev.name}</span>
-                    <span class="review-stars">${rev.stars}</span>
+                    <span class="reviewer-name">${escapeHtml(rev.reviewerName)}</span>
+                    <span class="review-stars" aria-label="${escapeHtml(rev.stars)} out of 5 stars">${starString(rev.stars)}</span>
                 </div>
-                <p class="review-text">${rev.text}</p>
-            `;
-            reviewsGrid.appendChild(card);
-        });
+                <p class="review-text">${escapeHtml(rev.text)}</p>
+            </div>`;
+    }
 
+    function renderReviews(list, emptyMessage) {
+        if (!reviewsList || !reviewsGrid) return;
+        const reviews = Array.isArray(list) ? list : [];
+
+        reviewsList.innerHTML = reviews.length
+            ? reviews.slice(0, REVIEW_SUMMARY_COUNT).map(buildReviewCardHTML).join('')
+            : `<div class="review-card review-empty"><p class="review-text">${escapeHtml(emptyMessage || 'No reviews yet. Be the first to share your experience!')}</p></div>`;
+        reviewsGrid.innerHTML = reviews.map(buildReviewCardHTML).join('');
+
+        // Nothing more to expand when everything is already in the summary.
+        if (toggleReviewsBtn) {
+            toggleReviewsBtn.classList.toggle('hidden', reviews.length <= REVIEW_SUMMARY_COUNT);
+        }
+    }
+
+    if (toggleReviewsBtn && reviewsSummaryLayout && reviewsGrid) {
         toggleReviewsBtn.addEventListener('click', () => {
             const isGridVisible = !reviewsGrid.classList.contains('hidden');
 
@@ -410,21 +423,169 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 8. Photo Gallery Center Scroll Helper
-    const galleryContainer = document.querySelector('.gallery-container');
-    const centerCard = document.querySelector('.center-card');
-
-    if (galleryContainer && centerCard) {
-        const galleryObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && window.innerWidth <= 1024) {
-                    centerCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-                }
+    if (typeof Api !== 'undefined' && Api.getReviews) {
+        Api.getReviews()
+            .then((reviews) => renderReviews(reviews))
+            .catch((err) => {
+                console.warn('Could not load reviews from backend:', err.message);
+                renderReviews([], 'Reviews are unavailable right now.');
             });
-        }, { threshold: 0.5 });
-
-        galleryObserver.observe(galleryContainer);
+    } else {
+        renderReviews([]);
     }
+
+    // 8. Photo Gallery Slideshow
+    // Slides rotate to the right; whichever slide is in the middle is enlarged
+    // (4:5 portrait on desktop, full width on phones) with a slight zoom + lift.
+    (function initGallerySlideshow() {
+        const stage = document.getElementById('gallery-slider');
+        if (!stage) return;
+
+        const slides = Array.from(stage.querySelectorAll('.gallery-slide'));
+        const total = slides.length;
+        if (total < 3) return;
+
+        const AUTOPLAY_MS = 3200;
+        const GAP = 16;           // px between slides
+        const LIFT = 14;          // px the centre slide rises
+        const SWIPE_PX = 40;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        let center = Math.floor(total / 2);
+        const prevDiff = slides.map(() => null);
+        let timer = null;
+        let hovering = false;
+        let inView = false;
+        let dragStartX = null;
+        let dragMoved = false;
+
+        function wrapDiff(d) {
+            d = ((d % total) + total) % total;
+            if (d > total / 2) d -= total;
+            return d;
+        }
+
+        function getMetrics() {
+            const avail = stage.clientWidth;
+            if (window.innerWidth <= 640) {
+                // Phone: centre slide takes the full width, neighbours wait just off-screen.
+                return {
+                    sw: Math.max(200, avail - 32),
+                    scale: [1, 0.85, 0.8],
+                    opacity: [1, 0.7, 0],
+                };
+            }
+            const scale = [1.35, 1, 0.9];
+            const sw = Math.min(260, (avail - 32 - 4 * GAP) / (scale[0] + 2 * scale[1] + 2 * scale[2]));
+            return { sw: Math.max(120, sw), scale, opacity: [1, 0.9, 0.6] };
+        }
+
+        function layout() {
+            const m = getMetrics();
+            const half = (k) => (m.sw * m.scale[k]) / 2;
+            const off1 = half(0) + GAP + half(1);
+            const off2 = off1 + half(1) + GAP + half(2);
+
+            stage.style.setProperty('--sw', m.sw + 'px');
+            stage.style.height = Math.round(m.sw * 1.25 * m.scale[0] + LIFT * 2 + 40) + 'px';
+
+            slides.forEach((slide, i) => {
+                const d = wrapDiff(i - center);
+                const k = Math.abs(d);
+                const visible = k <= 2;
+                const x = k === 0 ? 0 : Math.sign(d) * (k === 1 ? off1 : off2);
+                const y = k === 0 ? -LIFT : 0;
+                const s = visible ? m.scale[k] : m.scale[2];
+                const targetOpacity = visible ? m.opacity[k] : 0;
+                const transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) scale(${s})`;
+
+                // A slide wrapping from one end to the other fades in at its new spot instead of flying across.
+                const wrapped = prevDiff[i] !== null && Math.abs(d - prevDiff[i]) > 2;
+                if (wrapped) {
+                    slide.style.transition = 'none';
+                    slide.style.opacity = '0';
+                    slide.style.transform = transform;
+                    void slide.offsetWidth;           // flush so the jump isn't animated
+                    slide.style.transition = '';
+                }
+
+                slide.style.transform = transform;
+                slide.style.opacity = String(targetOpacity);
+                slide.style.zIndex = String(visible ? 10 - k * 3 : 0);
+                slide.style.pointerEvents = visible && targetOpacity > 0 ? 'auto' : 'none';
+                slide.classList.toggle('is-center', k === 0);
+                slide.setAttribute('aria-hidden', k === 0 ? 'false' : 'true');
+                prevDiff[i] = d;
+            });
+        }
+
+        // dir = +1 moves the slides one step to the right (the left neighbour becomes the centre).
+        function rotate(dir) {
+            center = (((center - dir) % total) + total) % total;
+            layout();
+        }
+
+        function shouldPlay() {
+            return !reduceMotion && inView && !hovering && !document.hidden && dragStartX === null;
+        }
+
+        function syncAutoplay() {
+            if (shouldPlay()) {
+                if (!timer) timer = setInterval(() => rotate(1), AUTOPLAY_MS);
+            } else if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        // Interaction: pause on hover, tap a side slide to bring it forward, swipe to move.
+        stage.addEventListener('mouseenter', () => { hovering = true; syncAutoplay(); });
+        stage.addEventListener('mouseleave', () => { hovering = false; syncAutoplay(); });
+
+        slides.forEach((slide, i) => {
+            slide.addEventListener('click', () => {
+                if (dragMoved || i === center) return;
+                center = i;
+                layout();
+            });
+        });
+
+        stage.addEventListener('pointerdown', (e) => {
+            dragStartX = e.clientX;
+            dragMoved = false;
+            syncAutoplay();
+        });
+        window.addEventListener('pointerup', (e) => {
+            if (dragStartX === null) return;
+            const dx = e.clientX - dragStartX;
+            dragStartX = null;
+            if (Math.abs(dx) > SWIPE_PX) {
+                dragMoved = true;
+                rotate(dx > 0 ? 1 : -1);
+                setTimeout(() => { dragMoved = false; }, 0);
+            }
+            syncAutoplay();
+        });
+        window.addEventListener('pointercancel', () => { dragStartX = null; syncAutoplay(); });
+
+        document.addEventListener('visibilitychange', syncAutoplay);
+
+        new IntersectionObserver((entries) => {
+            inView = entries.some((en) => en.isIntersecting);
+            syncAutoplay();
+        }, { threshold: 0.3 }).observe(stage);
+
+        let resizeRaf = 0;
+        window.addEventListener('resize', () => {
+            cancelAnimationFrame(resizeRaf);
+            stage.classList.remove('is-ready');
+            layout();
+            resizeRaf = requestAnimationFrame(() => stage.classList.add('is-ready'));
+        });
+
+        layout();
+        requestAnimationFrame(() => requestAnimationFrame(() => stage.classList.add('is-ready')));
+    })();
 
     // 9. Booking Form Submission
     const bookingForm = document.getElementById('booking-form');
@@ -511,6 +672,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 return;
             }
+            if (!text) {
+                if (reviewStatus) {
+                    reviewStatus.textContent = 'Please write a short review.';
+                    reviewStatus.style.color = '#ef4444';
+                }
+                return;
+            }
 
             const payload = { reviewerName: name, stars: currentReviewRating, text: text };
 
@@ -523,7 +691,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 Api.submitReview(payload)
                     .then(() => {
                         if (reviewStatus) {
-                            reviewStatus.textContent = 'Thank you! Your review has been submitted.';
+                            reviewStatus.textContent = 'Thank you! Your review has been submitted and will appear once it is approved.';
                             reviewStatus.style.color = '#10b981';
                         }
                         if (reviewNameInput) reviewNameInput.value = '';
@@ -541,7 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 setTimeout(() => {
                     if (reviewStatus) {
-                        reviewStatus.textContent = 'Thank you! Your review has been submitted.';
+                        reviewStatus.textContent = 'Thank you! Your review has been submitted and will appear once it is approved.';
                         reviewStatus.style.color = '#10b981';
                     }
                     if (reviewNameInput) reviewNameInput.value = '';

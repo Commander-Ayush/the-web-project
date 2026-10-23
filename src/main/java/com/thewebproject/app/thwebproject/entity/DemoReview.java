@@ -28,6 +28,7 @@ public class DemoReview {
     public String getText() { return text; }
     public void setText(String text) { this.text = text; }
     public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
     public boolean isApproved() { return approved; }
     public void setApproved(boolean approved) { this.approved = approved; }
 }

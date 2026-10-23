@@ -5,6 +5,7 @@ import com.thewebproject.app.thwebproject.entity.DemoReview;
 import com.thewebproject.app.thwebproject.repositories.DemoBookingRepository;
 import com.thewebproject.app.thwebproject.repositories.DemoReviewRepository;
 import com.thewebproject.app.thwebproject.service.ClientDirectoryService;
+import com.thewebproject.app.thwebproject.service.DemoReviewSeeder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,9 +21,10 @@ public class DemoBookingApiController {
     private final DemoBookingRepository bookings;
     private final DemoReviewRepository reviews;
     private final ClientDirectoryService clients;
+    private final DemoReviewSeeder reviewSeeder;
 
-    public DemoBookingApiController(DemoBookingRepository bookings, DemoReviewRepository reviews, ClientDirectoryService clients) {
-        this.bookings=bookings; this.reviews=reviews; this.clients=clients;
+    public DemoBookingApiController(DemoBookingRepository bookings, DemoReviewRepository reviews, ClientDirectoryService clients, DemoReviewSeeder reviewSeeder) {
+        this.bookings=bookings; this.reviews=reviews; this.clients=clients; this.reviewSeeder=reviewSeeder;
     }
     private static Map<String,Object> service(int id,String icon,String name,String price) {
         Map<String,Object> s=new LinkedHashMap<>();
@@ -47,7 +49,7 @@ public class DemoBookingApiController {
         b=bookings.save(b); return ResponseEntity.ok(Map.of("message","Booking received.","id",b.getId()));
     }
     @GetMapping("/reviews")
-    public List<DemoReview> reviews(@PathVariable int clientId) { requireClient(clientId); return reviews.findByClientIdAndApprovedTrueOrderBySubmittedAtDesc(clientId); }
+    public List<DemoReview> reviews(@PathVariable int clientId) { requireClient(clientId); reviewSeeder.ensureSeeded(clientId); return reviews.findByClientIdAndApprovedTrueOrderBySubmittedAtDesc(clientId); }
 
     @PostMapping("/reviews")
     public ResponseEntity<Map<String,Object>> review(@PathVariable int clientId,@RequestBody Map<String,Object> body) {
