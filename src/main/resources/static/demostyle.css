@@ -475,7 +475,7 @@ h2 {
     padding: 0 1.5rem;
 }
 
-/* "Show All" grid: cards keep the same soft tone as the carousel's focused card
+/* "Show All" grid: cards use a soft slate tone (one shade darker than the carousel's focused card)
    (change --service-grid-bg to retune) and land in with a gentle staggered rise.
    transform/opacity are intentionally NOT !important so the animation can run. */
 .services-grid-container .service-card {
@@ -486,7 +486,7 @@ h2 {
     transform: none;
     opacity: 1;
     filter: none !important;
-    background: var(--service-grid-bg, var(--bg-card-hover));
+    background: var(--service-grid-bg, #e2e8f0);
     width: calc(33.333% - 0.834rem);
     height: auto !important;
     aspect-ratio: 1 / 1;
@@ -585,11 +585,11 @@ h2 {
     width: 200%;
     height: 200%;
     background: linear-gradient(135deg,
-            transparent 42%,
-            rgba(220, 38, 38, 0.2) 47%,
-            #ffffff 50%,
-            var(--primary) 53%,
-            transparent 58%);
+    transparent 42%,
+    rgba(220, 38, 38, 0.2) 47%,
+    #ffffff 50%,
+    var(--primary) 53%,
+    transparent 58%);
     z-index: 0;
     transform: translate(-100%, -100%);
     opacity: 0;
@@ -922,72 +922,66 @@ h2 {
     overflow: hidden;
 }
 
-/* Slideshow: 5 slides, centre one enlarged. Positions/sizes are set by demoscript.js
-   (it sets --sw on the stage and a transform on every slide). */
-.gallery-slider {
-    position: relative;
+.gallery-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 2rem;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
+    box-sizing: border-box;
 }
 
-.gallery-slide {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: var(--sw, 220px);
-    aspect-ratio: 4 / 5;
+.gallery-card {
+    flex: 0 0 calc(20% - 1.2rem);
+    max-width: 300px;
+    height: 420px;
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid var(--border-base);
     background: var(--bg-card);
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-    cursor: pointer;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Transitions only switch on after the first layout so nothing animates on page load/resize. */
-.gallery-slider.is-ready .gallery-slide {
-    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.9s ease,
-                box-shadow 0.6s ease,
-                border-color 0.6s ease;
-}
-
-.gallery-slide img {
+.gallery-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transform: scale(1);
-    pointer-events: none;
-    -webkit-user-drag: none;
+    transition: transform 0.5s ease;
 }
 
-.gallery-slider.is-ready .gallery-slide img {
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.gallery-slide.is-center {
+.gallery-card:hover {
     border-color: var(--primary);
-    box-shadow: 0 22px 45px rgba(220, 38, 38, 0.18), 0 12px 30px rgba(15, 23, 42, 0.12);
-    cursor: default;
+    box-shadow: 0 10px 25px rgba(220, 38, 38, 0.15);
 }
 
-.gallery-slide.is-center img {
-    transform: scale(1.08);
+.gallery-card:hover img {
+    transform: scale(1.05);
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Auto-rotation support (demoscript.js). Does not change how the static row looks. */
+.gallery-container {
+    position: relative;
+}
 
-    .gallery-slider.is-ready .gallery-slide,
-    .gallery-slider.is-ready .gallery-slide img {
-        transition-duration: 0.01s;
+.gallery-ghost {
+    position: absolute;
+    margin: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+    .gallery-container {
+        overflow-x: auto;
+        justify-content: flex-start;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 1.5rem;
+    }
+
+    .gallery-card {
+        flex: 0 0 260px;
+        scroll-snap-align: center;
     }
 }
 
