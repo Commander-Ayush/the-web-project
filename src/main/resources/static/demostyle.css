@@ -1205,3 +1205,140 @@ footer {
         margin-right: auto;
     }
 }
+/* ==========================================================================
+   SECTION STANDARDIZATION — rounded grey glass sections, left-aligned headers
+   ========================================================================== */
+
+:root {
+    --gutter: max(1.5rem, calc((100vw - 2.5rem - 1100px) / 2));
+}
+
+/* Rounded translucent grey section */
+.services,
+.booking-section,
+.gallery-section,
+.reviews-section,
+.about-section {
+    width: calc(100% - 2.5rem);
+    max-width: none;
+    margin: 1.25rem auto;
+    padding: clamp(3rem, 7vh, 4.5rem) var(--gutter);
+    background: rgba(100, 116, 139, 0.10);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+    overflow: hidden;
+}
+
+/* Carousel and gallery run edge to edge; only their headers get the gutter */
+.services,
+.gallery-section {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.services .section-header,
+.gallery-section .section-header {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+}
+
+/* One header style: title left, button right */
+.section-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    text-align: left;
+}
+
+.booking-section .section-header,
+.reviews-section .section-header {
+    padding: 0;
+}
+
+.section-header h2,
+.section-header .section-sub,
+.about-section h2,
+.about-section .section-sub {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.section-header .btn-toggle {
+    align-self: flex-end;
+}
+
+/* Red accent bar under every title */
+.section-header h2::after,
+.about-section h2::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 4px;
+    margin: 0.85rem 0 0;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+/* Booking card fills the grid */
+.glare-card-wrapper {
+    max-width: none;
+    margin: 0;
+}
+
+/* About: left aligned */
+.about-section {
+    text-align: left;
+}
+
+.about-section .section-sub {
+    max-width: 560px;
+    margin-bottom: 0;
+}
+
+.contact-details {
+    align-items: flex-start;
+}
+
+/* Expanded review grid aligns with the grid too */
+.reviews-grid-container {
+    max-width: none;
+    padding: 0;
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --gutter: 1.25rem;
+    }
+
+    .services,
+    .booking-section,
+    .gallery-section,
+    .reviews-section,
+    .about-section {
+        width: calc(100% - 1.5rem);
+        margin: 0.75rem auto;
+        border-radius: 18px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .section-header .btn-toggle {
+        align-self: flex-start;
+    }
+}
